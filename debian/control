@@ -1,0 +1,18 @@
+Source: omx-qualification-rpi5-zynthian-vangelis
+Section: sound
+Priority: optional
+Maintainer: Pau Aliagas <linuxnow@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/FreeMixer/omx-qualification-records
+Rules-Requires-Root: no
+
+Package: omx-qualification-rpi5-zynthian-vangelis
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, plugin-qualify (>= 0.17.0~)
+Description: qualification records of the zynthian-vangelis plugin set for rpi5
+ The plugin-qualify records of the zynthian-vangelis plugin set, measured on a
+ rpi5 device. plugin-qualify-sync takes a plugin from them instead of
+ measuring it, and only when every file of the installed plugin hashes as the
+ measured one did; any other plugin is measured on the device as before.

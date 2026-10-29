@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+
+%:
+	dh $@
+
+# the records are data: nothing to configure, build or test
+override_dh_auto_configure override_dh_auto_build override_dh_auto_test:
