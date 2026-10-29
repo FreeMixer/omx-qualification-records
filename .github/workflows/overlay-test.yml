@@ -1,0 +1,29 @@
+name: overlay-test
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    container: { image: 'debian:trixie' }
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: omx-qualification-records-debs-trixie-amd64, path: pkgs, run-id: '40842186636', github-token: '${{ github.token }}' }
+      - run: apt-get update -qq && apt-get install -y --no-install-recommends ca-certificates curl gh
+      - uses: FreeMixer/.github/.github/actions/add-openmixer@v1
+      - env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          set -euo pipefail
+          apt-get install -y --no-install-recommends plugin-qualify swh-lv2 x42-plugins dpf-plugins-lv2
+          gh release download v0.17.0 -R FreeMixer/plugin-qualify -p '*.tgz' -D /tmp/t
+          d=/usr/lib/node_modules/@openmixer/plugin-qualify
+          rm -rf /tmp/t/x && mkdir /tmp/t/x && tar -xzf /tmp/t/*.tgz -C /tmp/t/x
+          cp -r /tmp/t/x/package/dist/. $d/dist/ && cp /tmp/t/x/package/bin/* $d/bin/
+          dpkg --ignore-depends=plugin-qualify -i pkgs/trixie/omx-qualification-rpi5-zynthian-vangelis_*_all.deb
+          mkdir -p /etc/omx
+          printf 'host_class rpi5\nlv2_extra\nhostd_port 0\n' > /etc/omx/qualify.conf
+          plugin-qualify-sync --system 2>&1 | tee sync.log
+          echo "applied: $(grep -c 'distributed: .*: applied' sync.log || true)"
+          grep -E 'distributed: .*(binary differs|not applied|measured here)' sync.log | head || true
+          ls /var/lib/omx/qualification/*.qualification.json | wc -l
