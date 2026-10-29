@@ -42,8 +42,8 @@ jobs:
     secrets: inherit
 
   # The package installed where it is used: arm64 Debian trixie with plugin-qualify from the channel and the
-  # Debian package of the LV2 plugins the set was measured on (distrho-plugin-ports-lv2, the same bytes as the
-  # image's). The sync takes those plugins from the records, measuring none.
+  # Debian arm64 packages of LV2 plugins that are in the set with the very bytes the Zynthian image holds (checked
+  # against the records' SHA-256s). The sync takes those plugins from the records, measuring none.
   installed:
     name: Install and sync (trixie, arm64)
     needs: deb
@@ -77,7 +77,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod -R a+rX pkgs
-          apt-get install -y --no-install-recommends ./pkgs/trixie/omx-qualification-rpi5-zynthian-vangelis_*_all.deb distrho-plugin-ports-lv2
+          apt-get install -y --no-install-recommends ./pkgs/trixie/omx-qualification-rpi5-zynthian-vangelis_*_all.deb swh-lv2 x42-plugins dpf-plugins-lv2
           have=$(dpkg-query -W -f '${Version}' plugin-qualify)
           echo "plugin-qualify $have"
           dpkg --compare-versions "$have" ge 0.17.0

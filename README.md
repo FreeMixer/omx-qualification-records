@@ -82,8 +82,8 @@ date. Commit, then tag `v<version>`: the tag must equal the `debian/changelog` v
 ## Release
 
 A tag `v*` runs `.github/workflows/release.yml`: it builds the package from `debian/`, runs lintian (warnings fail),
-installs it in Debian trixie on arm64 with plugin-qualify from the channel and the Debian package of the LV2
-plugins of the set, asserts that `plugin-qualify-sync --system` takes plugins from the records
+installs it in Debian trixie on arm64 with plugin-qualify from the channel and three of Debian's own arm64 LV2 packages (swh-lv2,
+x42-plugins, dpf-plugins-lv2: their bytes are the set's), asserts that `plugin-qualify-sync --system` takes plugins from the records
 (`distributed: ... applied`), signs the apt index and publishes into the channel. A manual run (`workflow_dispatch`)
 does everything except publishing.
 
