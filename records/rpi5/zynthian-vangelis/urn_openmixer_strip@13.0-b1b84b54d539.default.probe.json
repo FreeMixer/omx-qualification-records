@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T141454Z-9e6-62dad5c8",
+    "startedAt": "2026-10-27T14:14:54+00:00",
+    "elapsedMs": 196,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "urn:openmixer:strip", "version": "13.0"},
+  "binary": {"path": "omx-strip.so", "sha256": "b1b84b54d53979523504b6fae868dfadb5e2f04390c274d101fd14656c7acf15", "files": [{"path": "manifest.ttl", "sha256": "d4af91b4b658daf5cfd18cbb53b37a02d742c62185c64ae70d17ca457ac436d5"}, {"path": "modgui.ttl", "sha256": "6b6cf92ace7a2906e00f90c4619621c60ac50da4fc0245ad421f25eb6ef9d94f"}, {"path": "omx-strip.so", "sha256": "b1b84b54d53979523504b6fae868dfadb5e2f04390c274d101fd14656c7acf15"}, {"path": "omx-strip.ttl", "sha256": "18b92bd5bdb9c95c4d650cbb04b03ad4f5a18f4723f3e3b8fec70d61f47a78b8"}], "layout": {"scheme": "omx-layout/1", "sha256": "b348d41f1cf6fa37ae3e5ce20278b8841abb7974838ca11e7cc7b25313d3a3e8"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "performance", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 26, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 170, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": []}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-gJvIl2/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261026T232257Z-ea4c-57cacf45",
+    "startedAt": "2026-10-26T23:22:57+00:00",
+    "elapsedMs": 139,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://guitarix.sourceforge.net/plugins/gx_sd2lead_#_sd2lead_", "version": "34.0"},
+  "binary": {"path": "gx_sd2lead.so", "sha256": "dd840be8fd028760a7bb2b53d272292e919b87bda757014d827e701e882dff40", "files": [{"path": "gx_sd2lead.so", "sha256": "dd840be8fd028760a7bb2b53d272292e919b87bda757014d827e701e882dff40"}, {"path": "gx_sd2lead.ttl", "sha256": "950c319e5c9b6cacf298fbfffa3ca1f6cd1bb0d60813767f715f1e896028ffda"}, {"path": "manifest.ttl", "sha256": "ea7fc9d0dddef33447791880e7615211743ae8c6abec89c18176fe2282697765"}], "layout": {"scheme": "omx-layout/1", "sha256": "99fd544ed9e3e21a71391d78035fd92d577c8037d7313acd2a5d099e3e481328"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 26, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 113, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": []}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-5olFrd/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

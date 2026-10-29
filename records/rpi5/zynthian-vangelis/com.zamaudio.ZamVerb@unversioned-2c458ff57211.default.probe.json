@@ -1,0 +1,52 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T205248Z-31bdd-70e5ad93",
+    "startedAt": "2026-10-28T20:52:48+00:00",
+    "elapsedMs": 12577,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "clap-qualify", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "clap", "id": "com.zamaudio.ZamVerb"},
+  "binary": {"path": "/usr/lib/clap/ZamVerb.clap", "sha256": "2c458ff57211a3731f4220654df7414da66efac2ea26c2a75bb8ed9c411e5b5a", "files": [{"path": "ZamVerb.clap", "sha256": "2c458ff57211a3731f4220654df7414da66efac2ea26c2a75bb8ed9c411e5b5a"}], "layout": {"scheme": "omx-layout/1", "sha256": "719dcfda9036977129ee7fd1f7e795ef794ba582116c47b1de12f3b6dd27be0f"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "clapExtensions": ["clap.log", "clap.thread-check", "clap.latency", "clap.params", "clap.audio-ports", "clap.state", "clap.note-ports", "clap.note-name", "clap.voice-info", "clap.event-registry", "clap.timer-support", "clap.posix-fd-support", "clap.thread-pool", "clap.tail", "clap.surround/4", "clap.ambisonic/3", "clap.audio-ports-config"], "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 12577, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "outcome": "probe.ok", "elapsedMs": 0, "detail": "counts are totals over every rate, read from the child's line"},
+    {"step": "note-sweep", "outcome": "probe.not-attempted", "elapsedMs": 0, "detail": "no note input"}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "latency": {"declaredFrames": 0, "measuredFrames": 0, "method": "impulse-onset"}, "cost": {"unit": "ns-per-sample", "median": 18613, "percentile": {"p": 95, "value": 31383.1}, "min": 10627.6, "max": 36942.4, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 1355120, "locks": 3072, "syscalls": 0, "threadViolations": 0, "processErrors": 0, "events": ["pthread_mutex_trylock", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free", "free"]}, "noteSweep": {"applicable": false}}
+  ],
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-s86Eg6/child.stderr.log", "sha256": "3bd791c05285faf3c79eb8c33e8e0dc518a41fa95929b90a79c568627d2d8dcc", "bytes": 342}]
+}

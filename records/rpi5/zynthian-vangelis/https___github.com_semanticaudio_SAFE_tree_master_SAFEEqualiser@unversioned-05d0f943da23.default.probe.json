@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T210404Z-32b66-ae01e3fe",
+    "startedAt": "2026-10-28T21:04:04+00:00",
+    "elapsedMs": 955,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://github.com/semanticaudio/SAFE/tree/master/SAFEEqualiser"},
+  "binary": {"path": "SAFEEqualiser.so", "sha256": "05d0f943da23eeae79c65e4d0b4461b0707a204df74bf7d221df376e07c7f672", "files": [{"path": "SAFEEqualiser.so", "sha256": "05d0f943da23eeae79c65e4d0b4461b0707a204df74bf7d221df376e07c7f672"}, {"path": "SAFEEqualiser.ttl", "sha256": "3a309db20e7ad424d013890f1c33a136424729e4fc9e2c9342cc42ed27ce33e9"}, {"path": "manifest.ttl", "sha256": "17f5db1dc0cfb815bf3ebaea2201953a3685f8a1044d232f4e7915c63d855d46"}], "layout": {"scheme": "omx-layout/1", "sha256": "e7009bc7a512c1114aaf89e3dcc6839d53eeaf6acd2cc618ca754d85073c4fe6"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 70, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 885, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "latency": {"declaredFrames": 0, "measuredFrames": 0, "method": "impulse-onset"}, "cost": {"unit": "ns-per-sample", "median": 79.0645, "percentile": {"p": 95, "value": 79.6074}, "min": 73.8574, "max": 220.16, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 1372, "locks": 512, "syscalls": 0, "events": ["mutex_lock ? ?", "free ? ?"]}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 2, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-6WmpwF/child.stderr.log", "sha256": "11eae1f0fd9e6a1b5f3f646de08ff3367c56cc408287b36b74c9f6bd72b146ee", "bytes": 1394}]
+}

@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T004702Z-159c3-f21dda7d",
+    "startedAt": "2026-10-27T00:47:02+00:00",
+    "elapsedMs": 86,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://moddevices.com/plugins/tap/autopan", "version": "7.2"},
+  "binary": {"path": "tap_autopan.so", "sha256": "cd0478dda9912ccf1377dfbc801a1d61adf9aed34d4fe10ca8b42cbc63924d2e", "files": [{"path": "manifest.ttl", "sha256": "9632626071c73a1d0b7e24d6f092c3bf83efe91e1ad76f45fcf9a5f6fd7ed327"}, {"path": "modgui.ttl", "sha256": "53d55ff93ae12e73ef8028c3b5b27dc1f31e27c3de04375171ca95b3ec4b221d"}, {"path": "tap_autopan.so", "sha256": "cd0478dda9912ccf1377dfbc801a1d61adf9aed34d4fe10ca8b42cbc63924d2e"}, {"path": "tap_autopan.ttl", "sha256": "c47d3c60489a3077524eebdc9421391d1200b914dd3247b9bd2136933daaec56"}], "layout": {"scheme": "omx-layout/1", "sha256": "452577d71a409f8d59960d8d3206e1d7824c70f791c6c8071af8ef6bf333c9a9"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 24, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 62, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": []}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-76B8U9/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

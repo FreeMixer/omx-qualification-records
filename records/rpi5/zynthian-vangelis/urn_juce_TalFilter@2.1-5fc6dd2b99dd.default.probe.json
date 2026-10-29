@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T210422Z-32d0a-117df2f0",
+    "startedAt": "2026-10-28T21:04:22+00:00",
+    "elapsedMs": 729,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "urn:juce:TalFilter", "version": "2.1"},
+  "binary": {"path": "TAL-Filter.so", "sha256": "5fc6dd2b99dd5fe73ea1545fb0ad64d452ec91792355b59ed6f52fcf152a5823", "files": [{"path": "TAL-Filter.so", "sha256": "5fc6dd2b99dd5fe73ea1545fb0ad64d452ec91792355b59ed6f52fcf152a5823"}, {"path": "TAL-Filter.ttl", "sha256": "db22729f7bae51505414ebc6f910fee3df89edddfa2d10216c0e2605697d3a2a"}, {"path": "manifest.ttl", "sha256": "f3ba3728936e6161c16ecb84ae4987fdcf125e8132da8e5b4d4fd1d2268f1e77"}], "layout": {"scheme": "omx-layout/1", "sha256": "2238c5434d4099be9738c780043731c4ba261b2d67d682f8fd8fd17c4b39ec36"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 67, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 662, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "latency": {"declaredFrames": 0, "measuredFrames": 1, "method": "impulse-onset"}, "cost": {"unit": "ns-per-sample", "median": 184.535, "percentile": {"p": 95, "value": 186.745}, "min": 182.689, "max": 338.506, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 512, "locks": 1024, "syscalls": 0, "events": ["mutex_lock ? ?", "free ? ?"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 512, "locks": 1024, "syscalls": 0}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 2, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-SzaUCf/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

@@ -1,0 +1,284 @@
+{
+  "schema": "plugin-qualify.qualification-record/1",
+  "plugin": {
+    "format": "lv2",
+    "id": "http://theusualsuspects.lv2/Xenia"
+  },
+  "testedVersion": "1.1",
+  "binary": {
+    "path": "libXenia.so",
+    "sha256": "72eeb9ac79b950852db0ff81e9fc1f0d83af405a3071440308e8cf8a73710805",
+    "files": [
+      {
+        "path": "dsp.ttl",
+        "sha256": "1d094fbee10bfafb82d9ba1051cb0794d0b8b6ea4ef6c1d0678fab3a5200ce7c"
+      },
+      {
+        "path": "libXenia.so",
+        "sha256": "72eeb9ac79b950852db0ff81e9fc1f0d83af405a3071440308e8cf8a73710805"
+      },
+      {
+        "path": "manifest.ttl",
+        "sha256": "b0d97a2e06ed8b5084219216f4e5081cbc9d22e239b00111ba3912519716a777"
+      }
+    ],
+    "layout": {
+      "scheme": "omx-layout/1",
+      "sha256": "4b0861e655e3b42ed924df11cf5f9c990d4181e9d1a176592428a46cb5403566"
+    }
+  },
+  "verdicts": [
+    {
+      "host": "omx-clap-host",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 1968983,
+            "syscalls": 113164,
+            "locks": 403791
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 14675,
+            "syscalls": 284,
+            "locks": 15306
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 1968983,
+            "syscalls": 113164,
+            "locks": 403791
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 14675,
+            "syscalls": 284,
+            "locks": 15306
+          }
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "run",
+      "deciding": "mod-host.no-answer",
+      "reasons": [
+        {
+          "dimension": "hostAdmission",
+          "rating": "unsuitable",
+          "code": "mod-host.no-answer",
+          "params": {
+            "step": "activate"
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 1968983,
+            "syscalls": 113164,
+            "locks": 403791
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 14675,
+            "syscalls": 284,
+            "locks": 15306
+          }
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "inProcess": {
+      "host": "openmixer-console",
+      "measured": true,
+      "qualified": false,
+      "rating": "unsuitable",
+      "deciding": "hosting.rt-safety.violations-in-run"
+    },
+    "isolated": {
+      "host": "mod-host",
+      "measured": true,
+      "qualified": false,
+      "rating": "unsuitable",
+      "deciding": "mod-host.no-answer"
+    },
+    "offeredOn": [],
+    "dimmed": "openmixer-console: hosting.rt-safety.violations-in-run; mod-host: mod-host.no-answer"
+  },
+  "cost": [
+    {
+      "host": "omx-clap-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "rate": 96000,
+      "quantum": 1024,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
+          }
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    }
+  ],
+  "measurements": {
+    "grid": [
+      {
+        "rate": 48000,
+        "quantum": 512,
+        "outcome": "probe.ok",
+        "rtSafety": {
+          "interposer": true,
+          "swept": true,
+          "sweepApplicable": true,
+          "blocks": 512,
+          "allocations": 1968983,
+          "locks": 403791,
+          "syscalls": 113164,
+          "events": [
+            "mutex_lock libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "realloc libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "write libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "mutex_lock libXenia.so _ZN4juce23AudioProcessorParameter34sendValueChangedMessageToListenersEf"
+          ]
+        },
+        "noteSweep": {
+          "applicable": true,
+          "dialect": "midi",
+          "allocations": 14675,
+          "locks": 15306,
+          "syscalls": 284
+        }
+      }
+    ],
+    "behaviour": {
+      "lifecycle": {
+        "cycles": 30,
+        "instantiated": 30,
+        "failed": 0
+      },
+      "threads": {
+        "before": 1,
+        "afterFirstInstantiate": 3,
+        "afterAllFreed": 1
+      },
+      "features": {
+        "required": [
+          "http://lv2plug.in/ns/ext/options#options",
+          "http://lv2plug.in/ns/ext/urid#map",
+          "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"
+        ]
+      }
+    }
+  },
+  "notMeasured": [
+    {
+      "dimension": "stability",
+      "code": "hosting.stability.unsoaked"
+    }
+  ],
+  "tool": {
+    "runner": "plugin-hostd-probe 0.12.0",
+    "child": "lv2_measure",
+    "interposer": "rt_interpose.so"
+  },
+  "measuredAt": "2026-10-27T00:56:26+00:00",
+  "probe": {
+    "file": "http___theusualsuspects.lv2_Xenia@1.1-72eeb9ac79b9.default.probe.json",
+    "sha256": "abd625ddc47ce1565a53bb68cc3425a0f1316e5884b40d7384b7b822c721cc9f",
+    "bytes": 3947,
+    "protocol": {
+      "name": "plugin-hostd.probe-protocol",
+      "version": 1
+    },
+    "reason": "on-request",
+    "outcome": "probe.ok",
+    "complete": true,
+    "machineClass": {
+      "arch": "aarch64",
+      "family": "arm",
+      "coreBand": "3-4",
+      "clockBand": "1.5-2.5GHz",
+      "preemptRt": false,
+      "cstatesLimited": false
+    },
+    "meetsProtocol": false
+  }
+}

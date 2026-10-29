@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T024013Z-1f49f-f621a5f2",
+    "startedAt": "2026-10-27T02:40:13+00:00",
+    "elapsedMs": 2867,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://github.com/jatinchowdhury18/ChowPhaserStereo", "version": "3.1"},
+  "binary": {"path": "ChowPhaserStereo.so", "sha256": "715b3d47a8bb66c0f51b72fd3902167a330dece88096eba1fba304b16f9f0c68", "files": [{"path": "ChowPhaserStereo.so", "sha256": "715b3d47a8bb66c0f51b72fd3902167a330dece88096eba1fba304b16f9f0c68"}, {"path": "ChowPhaserStereo.ttl", "sha256": "4772e54b32590bae2f21a951e13f97707f8a313f19302118eb89a1cad0d2c55f"}, {"path": "manifest.ttl", "sha256": "a465921407b89c5bbe928fe9740acdb4c78cbaed06cada4a403ed31c8a100259"}], "layout": {"scheme": "omx-layout/1", "sha256": "7c3ed95ef089b6c20d5be1752b13f908ba1f12ca892678a11fe1ce52e03a03dc"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 289, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 2578, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 1638, "locks": 17743, "syscalls": 40, "events": ["mutex_lock ChowPhaserStereo.so ?"]}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 3, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-KhPrvT/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

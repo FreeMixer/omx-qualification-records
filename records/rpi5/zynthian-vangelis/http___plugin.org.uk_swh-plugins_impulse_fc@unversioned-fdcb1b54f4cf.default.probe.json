@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T143037Z-2d02-9dbf73a6",
+    "startedAt": "2026-10-27T14:30:37+00:00",
+    "elapsedMs": 58,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://plugin.org.uk/swh-plugins/impulse_fc"},
+  "binary": {"path": "plugin-Linux.so", "sha256": "fdcb1b54f4cf2bf1baff7b06f445e1ed84e7871281abb373408a4dd2813878aa", "files": [{"path": "manifest.ttl", "sha256": "8e7c7c9fbdb2342b4fcfee323feb96d7001f7a4b15668a404a3176b9e193707c"}, {"path": "plugin-Linux.so", "sha256": "fdcb1b54f4cf2bf1baff7b06f445e1ed84e7871281abb373408a4dd2813878aa"}, {"path": "plugin.ttl", "sha256": "6c3dda9c2e5d9681f6a3a5bfbf1ddd499c6c8b7f09f6342a5084b3b0d6dbaff9"}], "layout": {"scheme": "omx-layout/1", "sha256": "73aedde47ed157bb790b76449b0979e01f41e192223cae9bdcdbef14c6d097d5"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 24, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.not-attempted", "elapsedMs": 0, "hostingCode": "hosting.latency.unmeasured", "detail": "no-audio-in: no audio input to put an impulse in and no MIDI input to play"},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 33, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "cost": {"unit": "ns-per-sample", "median": 1.88086, "percentile": {"p": 95, "value": 2.31445}, "min": 1.48242, "max": 2.60547, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": []}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-XJBz3K/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

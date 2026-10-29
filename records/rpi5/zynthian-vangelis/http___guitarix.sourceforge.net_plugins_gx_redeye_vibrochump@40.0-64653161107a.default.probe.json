@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T143000Z-285d-b1edb5eb",
+    "startedAt": "2026-10-27T14:30:00+00:00",
+    "elapsedMs": 1312,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://guitarix.sourceforge.net/plugins/gx_redeye#vibrochump", "version": "40.0"},
+  "binary": {"path": "gx_redeye.so", "sha256": "64653161107ade2092983421f769e93b71ff6c797646fc7f2cb72f4c331cf3d2", "files": [{"path": "gx_redeye.so", "sha256": "64653161107ade2092983421f769e93b71ff6c797646fc7f2cb72f4c331cf3d2"}, {"path": "gx_redeye.ttl", "sha256": "61f704870c3e930faea29ffd53fdc14e34feedee0efbc9c370e89702ea2412ea"}, {"path": "manifest.ttl", "sha256": "17a348349da37997fdd50e270e1f8d243c3e8e533a88650f4ccf0f573c57c02b"}, {"path": "modguis.ttl", "sha256": "c1f2eb24beb20ddb1f6b01e4cbc82130a0ca008017d96bca18f63ca38ff38683"}], "layout": {"scheme": "omx-layout/1", "sha256": "3a318022cf8bd227421265a6248e6406b3901e633d6a2cdb344c4027ba8e59df"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 29, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 1283, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "latency": {"declaredFrames": 0, "measuredFrames": 107, "method": "impulse-onset"}, "cost": {"unit": "ns-per-sample", "median": 738.969, "percentile": {"p": 95, "value": 818.979}, "min": 691.08, "max": 886.971, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-KgcHZI/child.stderr.log", "sha256": "06cf03ed48adde2160cf59cc039d994eb56fc042f06c1137f1aa26f53969b75e", "bytes": 1353}]
+}

@@ -1,0 +1,36 @@
+{
+  "image": "ZynthianOS Vangelis-2610.1 (built 2026-10-15 from Raspberry Pi OS Trixie, aarch64)",
+  "board": "Raspberry Pi 5 Model B Rev 1.0",
+  "measured": "2026-10-28",
+  "hostProfile": "omx-clap-host",
+  "sources": {
+    "zynthian-ui": "7ed5bcd61939422e1394f5d8b730e8532611c453",
+    "zynthian-sys": "aa36238dcb36fc004eaa4e027184adc8e67e8e8b"
+  },
+  "packages": {
+    "plugin-qualify": "0.16.1",
+    "plugin-hostd": "0.13.1",
+    "plugin-hostd-contract": "0.13.1",
+    "plugin-hostd-dev": "0.13.1",
+    "omx-clap-host": "0.23.2",
+    "omx-clap-core-contract": "0.23.2",
+    "libomx-clap-core1": "0.23.2",
+    "libomx-clap-core-dev": "0.23.2",
+    "omx-plugins": "0.15.1",
+    "omx-plugins-clap": "0.15.1",
+    "omx-plugins-lv2": "0.15.1",
+    "omx-plugins-contract": "0.15.1",
+    "omx-contract-data": "3.4.0",
+    "libomx-contract-dev": "3.4.0",
+    "omx-panel": "0.6.0",
+    "distrho-plugin-ports-lv2": "5:20210315"
+  },
+  "schema": "plugin-qualify.distributed-provenance/1",
+  "set": "zynthian-vangelis",
+  "hostClass": "rpi5",
+  "package": {
+    "name": "omx-qualification-rpi5-zynthian-vangelis",
+    "version": "2026.10.29"
+  },
+  "date": "2026-10-28"
+}

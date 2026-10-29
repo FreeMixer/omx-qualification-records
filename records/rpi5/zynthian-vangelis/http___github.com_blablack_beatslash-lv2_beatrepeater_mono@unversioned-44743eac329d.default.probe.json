@@ -1,0 +1,46 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T210838Z-33973-1dcdfa89",
+    "startedAt": "2026-10-28T21:08:38+00:00",
+    "elapsedMs": 4439,
+    "complete": false,
+    "outcome": "probe.crashed",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "lv2_measure"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://github.com/blablack/beatslash-lv2/beatrepeater_mono"},
+  "binary": {"path": "beatrepeater_mono.so", "sha256": "44743eac329de35e1c02da91821b5f7a332dbcbdcdb6789d452bfcfce401508f", "files": [{"path": "beatrepeater_mono.so", "sha256": "44743eac329de35e1c02da91821b5f7a332dbcbdcdb6789d452bfcfce401508f"}, {"path": "beatrepeater_mono.ttl", "sha256": "ca2bf1d0418c18671dd192e80b808319ec9404c618909e3a3a464c57ba1f3412"}, {"path": "manifest.ttl", "sha256": "6e6abf3319aaf13dd873078289f6f462dbed662193a9448aedfb6ce0b6de7bd4"}], "layout": {"scheme": "omx-layout/1", "sha256": "5b5495d8dcb79c8507a9faeefcb1db86f9105715ce3dc5f61ba5428f5ddf7d7c"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 24, "exitStatus": 0},
+    {"step": "lifecycle", "outcome": "probe.crashed", "elapsedMs": 4415, "signal": "SIGKILL"}
+  ],
+  "crash": {"signal": "SIGKILL"},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-YaMZjB/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

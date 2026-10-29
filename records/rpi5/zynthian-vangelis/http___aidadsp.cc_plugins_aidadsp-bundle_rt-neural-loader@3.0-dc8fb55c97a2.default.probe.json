@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T005213Z-16090-0205bc54",
+    "startedAt": "2026-10-27T00:52:13+00:00",
+    "elapsedMs": 1309,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://aidadsp.cc/plugins/aidadsp-bundle/rt-neural-loader", "version": "3.0"},
+  "binary": {"path": "AIDA-X_dsp.so", "sha256": "dc8fb55c97a2f05125169a036113a7cceaf00de740d847b662f0990792dd1c38", "files": [{"path": "AIDA-X_dsp.so", "sha256": "dc8fb55c97a2f05125169a036113a7cceaf00de740d847b662f0990792dd1c38"}, {"path": "AIDA-X_dsp.ttl", "sha256": "f5fa96fa5d92e3d8e19aac6efcdde132714ce453c9b52f53d66030352e99fc95"}, {"path": "manifest.ttl", "sha256": "433a4ace95e26daf0a83780cac04116ce95dfe943c2aa90e6d4c6c4b87165dc4"}], "layout": {"scheme": "omx-layout/1", "sha256": "c3e72d515bca682cfa18bc621e6ce55be93616cb5ea66497c123e86d194506b3"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 51, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 1258, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 2, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/worker#schedule", "http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/options#options"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-IlXWa3/child.stderr.log", "sha256": "5f438c619557bf316e96503fbf72ec44afe9636c2f525b105baba110db02cb78", "bytes": 7277}]
+}

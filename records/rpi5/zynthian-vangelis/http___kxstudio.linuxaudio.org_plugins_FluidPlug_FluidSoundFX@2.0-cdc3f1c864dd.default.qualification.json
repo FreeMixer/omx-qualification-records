@@ -1,0 +1,190 @@
+{
+  "schema": "plugin-qualify.qualification-record/1",
+  "plugin": {
+    "format": "lv2",
+    "id": "http://kxstudio.linuxaudio.org/plugins/FluidPlug_FluidSoundFX"
+  },
+  "testedVersion": "2.0",
+  "binary": {
+    "path": "FluidPlug.so",
+    "sha256": "cdc3f1c864dde777b54f0a4306a9532ee57137dfcf83a414b91c15ba976449a7",
+    "files": [
+      {
+        "path": "FluidPlug.so",
+        "sha256": "cdc3f1c864dde777b54f0a4306a9532ee57137dfcf83a414b91c15ba976449a7"
+      },
+      {
+        "path": "FluidPlug.ttl",
+        "sha256": "7572b23e0f8fb1c5edb525cd06fde299b2b081798fc806868522800fdb5cb4e7"
+      },
+      {
+        "path": "manifest.ttl",
+        "sha256": "5b8c075f97b83dc0ab02a2f77be2e3e31e5177c650e55aafdbcbe8b8e4119591"
+      },
+      {
+        "path": "modgui.ttl",
+        "sha256": "79708f1703b42db3a0d234a10d7649b3b370b8e3e925424e124a0abd7f32a923"
+      }
+    ],
+    "layout": {
+      "scheme": "omx-layout/1",
+      "sha256": "ebcc191dcd22d53b9573577b4639bdfc20489374a47929037e5a44741024de28"
+    }
+  },
+  "verdicts": [
+    {
+      "host": "omx-clap-host",
+      "measured": false,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "probe.timeout",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unknown",
+          "code": "probe.timeout",
+          "params": {}
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "measured": false,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "probe.timeout",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unknown",
+          "code": "probe.timeout",
+          "params": {}
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "measured": false,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "probe.timeout",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unknown",
+          "code": "probe.timeout",
+          "params": {}
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "inProcess": {
+      "host": "openmixer-console",
+      "measured": false,
+      "qualified": false,
+      "rating": "unknown",
+      "deciding": "probe.timeout"
+    },
+    "isolated": {
+      "host": "mod-host",
+      "measured": false,
+      "qualified": false,
+      "rating": "unknown",
+      "deciding": "probe.timeout"
+    },
+    "offeredOn": [],
+    "dimmed": "openmixer-console: probe.timeout; mod-host: probe.timeout"
+  },
+  "cost": [
+    {
+      "host": "omx-clap-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "rate": 96000,
+      "quantum": 1024,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
+          }
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    }
+  ],
+  "measurements": {
+    "grid": []
+  },
+  "notMeasured": [
+    {
+      "dimension": "stability",
+      "code": "hosting.stability.unsoaked"
+    }
+  ],
+  "tool": {
+    "runner": "plugin-hostd-probe 0.12.0",
+    "child": "lv2_measure"
+  },
+  "measuredAt": "2026-10-27T14:15:56+00:00",
+  "probe": {
+    "file": "http___kxstudio.linuxaudio.org_plugins_FluidPlug_FluidSoundFX@2.0-cdc3f1c864dd.default.probe.json",
+    "sha256": "89a810530e33b14233341298ef530987957e075ac50ebec021eaaae1cc5f93e9",
+    "bytes": 2800,
+    "protocol": {
+      "name": "plugin-hostd.probe-protocol",
+      "version": 1
+    },
+    "reason": "on-request",
+    "outcome": "probe.timeout",
+    "complete": false,
+    "machineClass": {
+      "arch": "aarch64",
+      "family": "arm",
+      "coreBand": "3-4",
+      "clockBand": "1.5-2.5GHz",
+      "preemptRt": false,
+      "cstatesLimited": false
+    },
+    "meetsProtocol": false
+  }
+}

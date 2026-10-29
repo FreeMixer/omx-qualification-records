@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T011842Z-18541-3ff49c42",
+    "startedAt": "2026-10-27T01:18:42+00:00",
+    "elapsedMs": 494,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://git.code.sf.net/p/qmidiarp/lfo", "version": "0.0"},
+  "binary": {"path": "qmidiarp_lfo.so", "sha256": "f99ded8012a75b8a6ed427a00217ccfb8b0edec6c147bb5e746c1af6ff28a758", "files": [{"path": "manifest.ttl", "sha256": "b94827429dfa062876e784f86ecb61c36155f6eb65c2b19b53e2f9f74fd2ecc0"}, {"path": "qmidiarp_lfo.so", "sha256": "f99ded8012a75b8a6ed427a00217ccfb8b0edec6c147bb5e746c1af6ff28a758"}, {"path": "qmidiarp_lfo.ttl", "sha256": "aca33d13e772ec7623e6d77a3fd14c6a1fa35a431f7e229a5973cddd96735b71"}, {"path": "qmidiarp_lfo_ui.ttl", "sha256": "b9d18b34bc46b8556d037146e7be41ee0ed35e52da2453ec1183a7e5d06062b8"}], "layout": {"scheme": "omx-layout/1", "sha256": "6fcb0860b763e823d073a1bab26504b205784d0ab53339bec0ba0f9fb0a594c3"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 31, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 462, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 0, "locks": 0, "syscalls": 0}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-gz9AFG/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

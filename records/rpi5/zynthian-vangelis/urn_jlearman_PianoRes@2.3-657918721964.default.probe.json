@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T142326Z-1462-e44ceeac",
+    "startedAt": "2026-10-27T14:23:26+00:00",
+    "elapsedMs": 6650,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "urn:jlearman:PianoRes", "version": "2.3"},
+  "binary": {"path": "PianoRes.so", "sha256": "657918721964eab2aa0a314a53732971a6ce6672db4c7d18607ed95a4244d483", "files": [{"path": "PianoRes.so", "sha256": "657918721964eab2aa0a314a53732971a6ce6672db4c7d18607ed95a4244d483"}, {"path": "dsp.ttl", "sha256": "09c23d670fe2b326f088370a6a6bae342d4c04002402cedf63e2fdd032024c75"}, {"path": "manifest.ttl", "sha256": "09a13390138ad46e99c3c6b9a67c53b82754920857ecbbc28916f778d61764ad"}], "layout": {"scheme": "omx-layout/1", "sha256": "0441fa4618ada13630a985729afdf99eece8621c86c30bc0cbe87009278b54c0"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 197, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 6453, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 7650, "locks": 8784, "syscalls": 4, "events": ["mutex_lock PianoRes.so ?"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 15366, "locks": 1532, "syscalls": 505}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 4, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/options#options", "http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-AMQJHc/child.stderr.log", "sha256": "948f099465e1040af311035ca418c12a8db007f5fc1a3bdc9d96e2d487414f20", "bytes": 5460}]
+}

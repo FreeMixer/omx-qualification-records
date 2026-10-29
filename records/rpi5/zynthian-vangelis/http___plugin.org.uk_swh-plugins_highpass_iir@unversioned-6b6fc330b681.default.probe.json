@@ -1,0 +1,46 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T143036Z-2cd4-1646482b",
+    "startedAt": "2026-10-27T14:30:36+00:00",
+    "elapsedMs": 28,
+    "complete": false,
+    "outcome": "probe.crashed",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.0", "child": "lv2_measure"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://plugin.org.uk/swh-plugins/highpass_iir"},
+  "binary": {"path": "plugin-Linux.so", "sha256": "6b6fc330b6816be850aef710d102470e7b1c9f3c0ee42928ac80abf3767be356", "files": [{"path": "manifest.ttl", "sha256": "f1cda7ee3fca13d2bc624202b5095d83db42309e8da0ab07add519a58565ad7b"}, {"path": "plugin-Linux.so", "sha256": "6b6fc330b6816be850aef710d102470e7b1c9f3c0ee42928ac80abf3767be356"}, {"path": "plugin.ttl", "sha256": "24bc9f6fc35695b91add7ec35b6061379aeef9b929aba5d1065864cce66f608d"}], "layout": {"scheme": "omx-layout/1", "sha256": "61ed1fdec142099527ed99810efeb176f8f30bd1f52861b6c371ccab1de5b07c"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 25, "exitStatus": 0},
+    {"step": "lifecycle", "outcome": "probe.crashed", "elapsedMs": 3, "signal": "SIGSEGV"}
+  ],
+  "crash": {"signal": "SIGSEGV"},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-ey0FtR/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

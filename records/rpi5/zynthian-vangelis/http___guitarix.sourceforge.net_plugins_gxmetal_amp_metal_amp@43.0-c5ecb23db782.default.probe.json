@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T143020Z-2a90-aa9e9ac1",
+    "startedAt": "2026-10-27T14:30:20+00:00",
+    "elapsedMs": 875,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://guitarix.sourceforge.net/plugins/gxmetal_amp#metal_amp", "version": "43.0"},
+  "binary": {"path": "gxmetal_amp.so", "sha256": "c5ecb23db782d3011b57d5dc66deaa6593d981cebcb40ecbda79447e19dae445", "files": [{"path": "gxmetal_amp.so", "sha256": "c5ecb23db782d3011b57d5dc66deaa6593d981cebcb40ecbda79447e19dae445"}, {"path": "gxmetal_amp.ttl", "sha256": "027c97bc7471373f542671cf46611556331fc1068f0aaa42ae5fed01adf2398e"}, {"path": "manifest.ttl", "sha256": "45d8dfa00778b6de2a1805f77c1800dab58766a8e7598379c0785a39d0a7fd2b"}], "layout": {"scheme": "omx-layout/1", "sha256": "12e5b4412090df043f16c3854342f7ffc5eb2d011574ddbe5bacd64c4d3717cd"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 32, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.not-attempted", "elapsedMs": 0, "hostingCode": "hosting.latency.unmeasured", "detail": "silent-output: the impulse never came out within the declared latency and the tail"},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 843, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "cost": {"unit": "ns-per-sample", "median": 420.537, "percentile": {"p": 95, "value": 439.571}, "min": 418.873, "max": 595.305, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 0, "syscalls": 0, "events": []}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-f7Lq6d/child.stderr.log", "sha256": "db1bce7e4d4752d3d7dbabbbc7e4342ed8c7b3b707f2f1767bfa40154dfd22b9", "bytes": 2542}]
+}

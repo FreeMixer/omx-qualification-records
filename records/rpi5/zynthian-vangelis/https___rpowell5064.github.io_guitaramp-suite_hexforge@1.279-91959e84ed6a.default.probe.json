@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T142725Z-2082-f3f2b205",
+    "startedAt": "2026-10-27T14:27:25+00:00",
+    "elapsedMs": 26745,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://rpowell5064.github.io/guitaramp-suite/hexforge", "version": "1.279"},
+  "binary": {"path": "guitaramp_hexforge.so", "sha256": "91959e84ed6a577cacb0080bcab152ca7fc57061fcf18237e753d99578f7dd95", "files": [{"path": "guitaramp_hexforge.so", "sha256": "91959e84ed6a577cacb0080bcab152ca7fc57061fcf18237e753d99578f7dd95"}, {"path": "hexforge.ttl", "sha256": "130074af1194b63c3a4bad3b6c856130a2f672e3c4196abe23156cf73feac085"}, {"path": "manifest.ttl", "sha256": "ca62d9d7f5568743137c8b759eb4baf932a2f657f38c64da1ef525c8c33d1124"}, {"path": "x11ui.ttl", "sha256": "622cc632939f13cb8c20381ff3482a206f767f1d14692394242d8686885b6421"}], "layout": {"scheme": "omx-layout/1", "sha256": "db7cf4e771443537d008d8d91d8dc2fd22c4278caf67c3c2e949639413a2c25f"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 105, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 26640, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 936, "locks": 0, "syscalls": 0, "events": ["malloc guitaramp_hexforge.so ?", "calloc libstdc++.so.6 __cxa_thread_atexit", "malloc libstdc++.so.6 _Znwm", "free guitaramp_hexforge.so ?"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 0, "locks": 0, "syscalls": 0}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/worker#schedule", "http://lv2plug.in/ns/ext/urid#map"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-UqWAGU/child.stderr.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 0}]
+}

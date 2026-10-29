@@ -1,0 +1,288 @@
+{
+  "schema": "plugin-qualify.qualification-record/1",
+  "plugin": {
+    "format": "lv2",
+    "id": "http://theusualsuspects.lv2/OsTIrus"
+  },
+  "testedVersion": "1.1",
+  "binary": {
+    "path": "libOsTIrus.so",
+    "sha256": "d4a6a233991e7f254e90df863e7e22a4e595e2902f7df505747dfca30577dde2",
+    "files": [
+      {
+        "path": "dsp.ttl",
+        "sha256": "38de356b420d13d148eb4053a2d558e280913648a10452b51ea251b3e7dd241d"
+      },
+      {
+        "path": "libOsTIrus.so",
+        "sha256": "d4a6a233991e7f254e90df863e7e22a4e595e2902f7df505747dfca30577dde2"
+      },
+      {
+        "path": "manifest.ttl",
+        "sha256": "fd9c80a9d88a0a7f84f431b83d4151e4804890f2c086387633a8a4d48348c935"
+      }
+    ],
+    "layout": {
+      "scheme": "omx-layout/1",
+      "sha256": "99a1952e0ae07487fdc96953697d13e55f9d13d8b135d8626d61e7b4c3ab0b99"
+    }
+  },
+  "verdicts": [
+    {
+      "host": "omx-clap-host",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 2594528,
+            "syscalls": 139618,
+            "locks": 553643
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 15053,
+            "syscalls": 406,
+            "locks": 15494
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 2594528,
+            "syscalls": 139618,
+            "locks": 553643
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 15053,
+            "syscalls": 406,
+            "locks": 15494
+          }
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "measured": true,
+      "rating": "unsuitable",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "run",
+      "deciding": "mod-host.no-answer",
+      "reasons": [
+        {
+          "dimension": "hostAdmission",
+          "rating": "unsuitable",
+          "code": "mod-host.no-answer",
+          "params": {
+            "step": "activate"
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 2594528,
+            "syscalls": 139618,
+            "locks": 553643
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "unsuitable",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 15053,
+            "syscalls": 406,
+            "locks": 15494
+          }
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "inProcess": {
+      "host": "openmixer-console",
+      "measured": true,
+      "qualified": false,
+      "rating": "unsuitable",
+      "deciding": "hosting.rt-safety.violations-in-run"
+    },
+    "isolated": {
+      "host": "mod-host",
+      "measured": true,
+      "qualified": false,
+      "rating": "unsuitable",
+      "deciding": "mod-host.no-answer"
+    },
+    "offeredOn": [],
+    "dimmed": "openmixer-console: hosting.rt-safety.violations-in-run; mod-host: mod-host.no-answer"
+  },
+  "cost": [
+    {
+      "host": "omx-clap-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-console",
+      "rate": 96000,
+      "quantum": 1024,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
+          }
+        }
+      ]
+    },
+    {
+      "host": "mod-host",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    }
+  ],
+  "measurements": {
+    "grid": [
+      {
+        "rate": 48000,
+        "quantum": 512,
+        "outcome": "probe.ok",
+        "rtSafety": {
+          "interposer": true,
+          "swept": true,
+          "sweepApplicable": true,
+          "blocks": 512,
+          "allocations": 2594528,
+          "locks": 553643,
+          "syscalls": 139618,
+          "events": [
+            "mutex_lock libOsTIrus.so ?",
+            "mutex_lock libOsTIrus.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "realloc libOsTIrus.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "write libOsTIrus.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "mutex_lock libOsTIrus.so _ZN4juce23AudioProcessorParameter34sendValueChangedMessageToListenersEf",
+            "mutex_lock libOsTIrus.so _ZN4juce6detail32dispatchNextMessageOnSystemQueueEb",
+            "mutex_lock libOsTIrus.so _ZNSt17_Function_handlerIFviEZN4juce20InternalMessageQueueC4EvEUliE_E9_M_invokeERKSt9_Any_dataOi",
+            "read libOsTIrus.so _ZNSt17_Function_handlerIFviEZN4juce20InternalMessageQueueC4EvEUliE_E9_M_invokeERKSt9_Any_dataOi"
+          ]
+        },
+        "noteSweep": {
+          "applicable": true,
+          "dialect": "midi",
+          "allocations": 15053,
+          "locks": 15494,
+          "syscalls": 406
+        }
+      }
+    ],
+    "behaviour": {
+      "lifecycle": {
+        "cycles": 30,
+        "instantiated": 30,
+        "failed": 0
+      },
+      "threads": {
+        "before": 1,
+        "afterFirstInstantiate": 3,
+        "afterAllFreed": 1
+      },
+      "features": {
+        "required": [
+          "http://lv2plug.in/ns/ext/options#options",
+          "http://lv2plug.in/ns/ext/urid#map",
+          "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"
+        ]
+      }
+    }
+  },
+  "notMeasured": [
+    {
+      "dimension": "stability",
+      "code": "hosting.stability.unsoaked"
+    }
+  ],
+  "tool": {
+    "runner": "plugin-hostd-probe 0.12.0",
+    "child": "lv2_measure",
+    "interposer": "rt_interpose.so"
+  },
+  "measuredAt": "2026-10-27T00:54:14+00:00",
+  "probe": {
+    "file": "http___theusualsuspects.lv2_OsTIrus@1.1-d4a6a233991e.default.probe.json",
+    "sha256": "5bc6b151465199ae669813cbc528a385c5e495ddf722da43b707b14c60d8f7e8",
+    "bytes": 4311,
+    "protocol": {
+      "name": "plugin-hostd.probe-protocol",
+      "version": 1
+    },
+    "reason": "on-request",
+    "outcome": "probe.ok",
+    "complete": true,
+    "machineClass": {
+      "arch": "aarch64",
+      "family": "arm",
+      "coreBand": "3-4",
+      "clockBand": "1.5-2.5GHz",
+      "preemptRt": false,
+      "cstatesLimited": false
+    },
+    "meetsProtocol": false
+  }
+}

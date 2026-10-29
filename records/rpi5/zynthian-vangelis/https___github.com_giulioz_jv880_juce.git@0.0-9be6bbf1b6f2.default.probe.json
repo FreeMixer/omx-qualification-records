@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T143039Z-2d49-551af545",
+    "startedAt": "2026-10-27T14:30:39+00:00",
+    "elapsedMs": 711,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://github.com/giulioz/jv880_juce.git", "version": "0.0"},
+  "binary": {"path": "jv880.so", "sha256": "9be6bbf1b6f2141e96d981bfba2a67f36b680e159cefaeae76e7099daee040c1", "files": [{"path": "banks.ttl", "sha256": "a5f754f4e86cccb537d3fb00ea2608d46ac34b1250b807eb637607feeedeb2da"}, {"path": "dsp.ttl", "sha256": "94433f0ef19453843a63212dc4641010740c5c60cd1f94567742a36eabd26bbc"}, {"path": "jv880.so", "sha256": "9be6bbf1b6f2141e96d981bfba2a67f36b680e159cefaeae76e7099daee040c1"}, {"path": "manifest.ttl", "sha256": "6791f80eb4c2aa039f17ae2f93e017ab187999e4b62cb9eae2c88ce0dea8aac3"}, {"path": "presets.ttl", "sha256": "be5ab004dd9114321c4c918313cf23d58048a4a3940b4d589f99b7a87e4b3267"}], "layout": {"scheme": "omx-layout/1", "sha256": "0441fa4618ada13630a985729afdf99eece8621c86c30bc0cbe87009278b54c0"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 168, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 542, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "latency": {"declaredFrames": 0, "measuredFrames": 0, "method": "impulse-onset"}, "cost": {"unit": "ns-per-sample", "median": 1.12109, "percentile": {"p": 95, "value": 1.1582}, "min": 1.01172, "max": 1.33984, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 0, "locks": 512, "syscalls": 0, "events": ["mutex_lock jv880.so ?"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 27, "locks": 515, "syscalls": 0}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 2, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/options#options", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-1ziAuN/child.stderr.log", "sha256": "948f099465e1040af311035ca418c12a8db007f5fc1a3bdc9d96e2d487414f20", "bytes": 5460}]
+}

@@ -1,0 +1,46 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T003323Z-14a9a-a75fefde",
+    "startedAt": "2026-10-27T00:33:23+00:00",
+    "elapsedMs": 180,
+    "complete": false,
+    "outcome": "probe.crashed",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://moddevices.com/plugins/mod-devel/SuperCapo"},
+  "binary": {"path": "mod-supercapo.so", "sha256": "d0e92229dabd9bd6ad42df2463fca871ec5db12635cabfe86c2d874094c0ff06", "files": [{"path": "SuperCapo.ttl", "sha256": "3d0fc0f5cd9f68a0ff783b6f3973b754794231fbd7b11d1e06473dcd9a2394d1"}, {"path": "manifest.ttl", "sha256": "91d3a67b4d76660de446563a213a1b56d62b757ede878246f364aad18ac19228"}, {"path": "mod-supercapo.so", "sha256": "d0e92229dabd9bd6ad42df2463fca871ec5db12635cabfe86c2d874094c0ff06"}], "layout": {"scheme": "omx-layout/1", "sha256": "756cee8178cfdcd605f40f8b656e1696d783c10f5b66080ad6319a58b2a73f2c"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 41, "exitStatus": 0},
+    {"step": "lifecycle", "outcome": "probe.crashed", "elapsedMs": 139, "signal": "SIGABRT"}
+  ],
+  "crash": {"signal": "SIGABRT"},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-mpHZ8R/child.stderr.log", "sha256": "ad2b75d820ade3deb7f5a2fca85c60bb393158497e88c3e01896864541a69dbd", "bytes": 24}]
+}

@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T142314Z-117e-5f5c67ba",
+    "startedAt": "2026-10-27T14:23:14+00:00",
+    "elapsedMs": 1292,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://github.com/midilab/JC303/", "version": "11.0"},
+  "binary": {"path": "libJC303.so", "sha256": "6fafc0e7654e49f8e7f42e9196a4abad19391edd8888354984e33c8af5069e55", "files": [{"path": "dsp.ttl", "sha256": "1763481377552293eec942a84c31935fe85d8eec17f238db7bdc223d28663592"}, {"path": "libJC303.so", "sha256": "6fafc0e7654e49f8e7f42e9196a4abad19391edd8888354984e33c8af5069e55"}, {"path": "manifest.ttl", "sha256": "363e8722475144339287256a0c85093f44271ff54fc54c2e2ec3bde7d06a7b01"}], "layout": {"scheme": "omx-layout/1", "sha256": "e1cd0c0afc33197bb226222cc35bc86370f7a7ca3da252692aba968f7975d782"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "performance", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.not-pinned"]},
+    "pinnedCpus": "2-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 174, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 1118, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 176, "locks": 3492, "syscalls": 77, "events": ["mutex_lock libJC303.so ?"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 4610, "locks": 907, "syscalls": 190}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 3, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/options#options", "http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-7ScCdL/child.stderr.log", "sha256": "c268b55074180d4d2c5a75c9a3f4e8d384537d1569b65e6a75cc4bdea119e4e7", "bytes": 5330}]
+}

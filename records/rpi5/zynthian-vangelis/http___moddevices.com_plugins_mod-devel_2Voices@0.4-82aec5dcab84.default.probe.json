@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T002218Z-13d32-62fd245f",
+    "startedAt": "2026-10-27T00:22:18+00:00",
+    "elapsedMs": 502,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://moddevices.com/plugins/mod-devel/2Voices", "version": "0.4"},
+  "binary": {"path": "mod-2voices.so", "sha256": "82aec5dcab8400e40d7fd980adaf2b3361c28d2f3449abaa7985f576680ef040", "files": [{"path": "2Voices.ttl", "sha256": "ee224381c1c91311926333254366f2845f54b075e508d3d9e9cbef280ba04898"}, {"path": "manifest.ttl", "sha256": "87b262d6c70f1b62ca91e0247e69fa55961a6601f3763c9937cddaaba07b14f5"}, {"path": "mod-2voices.so", "sha256": "82aec5dcab8400e40d7fd980adaf2b3361c28d2f3449abaa7985f576680ef040"}, {"path": "modgui.ttl", "sha256": "95d6285890bf01f7287cf9cf3775f1397aece7a485c02503c74eff6f46d4e4c3"}], "layout": {"scheme": "omx-layout/1", "sha256": "26a95a5093dfdd8d2474e5b1ad41854ed147c2e579917ccb307f8d07b5ee976a"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 41, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 460, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 2325, "locks": 18, "syscalls": 0, "events": ["mutex_lock ? ?", "free ? ?"]}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 1, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/buf-size#powerOf2BlockLength", "http://lv2plug.in/ns/ext/buf-size#fixedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-YHIsLh/child.stderr.log", "sha256": "7bfc6bfd45473f76744ff96b0a0e2192a2a07aa24b6cc6523a546827a271d748", "bytes": 5244}]
+}

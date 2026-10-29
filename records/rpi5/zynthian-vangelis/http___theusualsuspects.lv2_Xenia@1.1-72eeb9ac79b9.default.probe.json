@@ -1,0 +1,51 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T005626Z-1692f-f28ab19a",
+    "startedAt": "2026-10-27T00:56:26+00:00",
+    "elapsedMs": 11278,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://theusualsuspects.lv2/Xenia", "version": "1.1"},
+  "binary": {"path": "libXenia.so", "sha256": "72eeb9ac79b950852db0ff81e9fc1f0d83af405a3071440308e8cf8a73710805", "files": [{"path": "dsp.ttl", "sha256": "1d094fbee10bfafb82d9ba1051cb0794d0b8b6ea4ef6c1d0678fab3a5200ce7c"}, {"path": "libXenia.so", "sha256": "72eeb9ac79b950852db0ff81e9fc1f0d83af405a3071440308e8cf8a73710805"}, {"path": "manifest.ttl", "sha256": "b0d97a2e06ed8b5084219216f4e5081cbc9d22e239b00111ba3912519716a777"}], "layout": {"scheme": "omx-layout/1", "sha256": "4b0861e655e3b42ed924df11cf5f9c990d4181e9d1a176592428a46cb5403566"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 1250, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 10028, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 1968983, "locks": 403791, "syscalls": 113164, "events": ["mutex_lock libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE", "realloc libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE", "write libXenia.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE", "mutex_lock libXenia.so _ZN4juce23AudioProcessorParameter34sendValueChangedMessageToListenersEf"]}, "noteSweep": {"applicable": true, "dialect": "midi", "allocations": 14675, "locks": 15306, "syscalls": 284}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 3, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/options#options", "http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-cA5A7d/child.stderr.log", "sha256": "41c2f3a8b21a63bda3031f9e7cd7d8d2403a894635bd480687f74a8aeeaf37e9", "bytes": 15000}]
+}

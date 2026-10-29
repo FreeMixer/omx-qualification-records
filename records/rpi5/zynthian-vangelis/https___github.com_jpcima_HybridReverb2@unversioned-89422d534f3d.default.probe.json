@@ -1,0 +1,53 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T210305Z-326c7-6a28edac",
+    "startedAt": "2026-10-28T21:03:05+00:00",
+    "elapsedMs": 587,
+    "complete": true,
+    "outcome": "probe.ok",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "lv2_measure", "interposer": "rt_interpose.so"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://github.com/jpcima/HybridReverb2"},
+  "binary": {"path": "HybridReverb2_LV2.so", "sha256": "89422d534f3d3c2d29178143f2341bee79f28529d0e8252ce55b4785d680c738", "files": [{"path": "HybridReverb2_LV2.so", "sha256": "89422d534f3d3c2d29178143f2341bee79f28529d0e8252ce55b4785d680c738"}, {"path": "HybridReverb2_LV2.ttl", "sha256": "cc47b74b2a30d3b4e1d2e8b333657d5b7225a6c4e2ae2eaa7b3243b2d2e5c528"}, {"path": "manifest.ttl", "sha256": "2bc9674ae8054c973500c129f90f980a5d92164a07f4f9203316db644cdcccf2"}], "layout": {"scheme": "omx-layout/1", "sha256": "99a2af52d90712f02f6a3d9dc395d5257444e1116aabcc2f08ba556d4b88ae43"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 178, "exitStatus": 0},
+    {"step": "instantiate", "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "rt-safety", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0, "detail": "read from the child's line"},
+    {"step": "latency", "rate": 48000, "quantum": 512, "outcome": "probe.not-attempted", "elapsedMs": 0, "hostingCode": "hosting.latency.unmeasured", "detail": "silent-output: the impulse never came out within the declared latency and the tail"},
+    {"step": "cost", "rate": 48000, "quantum": 512, "outcome": "probe.ok", "elapsedMs": 0},
+    {"step": "lifecycle", "outcome": "probe.ok", "elapsedMs": 409, "exitStatus": 0}
+  ],
+  "grid": [
+    {"rate": 48000, "quantum": 512, "outcome": "probe.ok", "cost": {"unit": "ns-per-sample", "median": 0.867188, "percentile": {"p": 95, "value": 0.884082}, "min": 0.794922, "max": 0.941406, "blocks": 512, "warmupBlocks": 64}, "rtSafety": {"interposer": true, "swept": true, "sweepApplicable": true, "blocks": 512, "allocations": 512, "locks": 512, "syscalls": 0, "events": ["mutex_lock ? ?", "free ? ?"]}, "noteSweep": {"applicable": false}}
+  ],
+  "behaviour": {"lifecycle": {"cycles": 30, "instantiated": 30, "failed": 0}, "threads": {"before": 1, "afterFirstInstantiate": 2, "afterAllFreed": 1}, "features": {"required": ["http://lv2plug.in/ns/ext/urid#map", "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"]}},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-1yy0TI/child.stderr.log", "sha256": "c5c1b5ec8a43d401b8d1a35ea7556cb2cac30d3f4ebf1115a9b187010a6edadd", "bytes": 3157}]
+}

@@ -1,0 +1,46 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261028T210452Z-32fb5-6235e645",
+    "startedAt": "2026-10-28T21:04:52+00:00",
+    "elapsedMs": 13769,
+    "complete": false,
+    "outcome": "probe.crashed",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.13.1", "child": "lv2_measure"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "https://www.vast-dynamics.com/plugins/VASTvaporizer2", "version": "5.0"},
+  "binary": {"path": "libVASTvaporizer2.so", "sha256": "dd4b553e3d9c09ffd1a41449071a2a607dd8c658be2d48b219ca4bec801212e3", "files": [{"path": "dsp.ttl", "sha256": "1bc50db319bca176f0546712ba31f8ddb12fb5421c2a82f1f00816c6921a4ffd"}, {"path": "libVASTvaporizer2.so", "sha256": "dd4b553e3d9c09ffd1a41449071a2a607dd8c658be2d48b219ca4bec801212e3"}, {"path": "manifest.ttl", "sha256": "61c605ebe13a82bd9e0d00f238a4b22e94c6ea232d3bc3462cf25ea7b5f0d2b5"}], "layout": {"scheme": "omx-layout/1", "sha256": "0441fa4618ada13630a985729afdf99eece8621c86c30bc0cbe87009278b54c0"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 373, "exitStatus": 0},
+    {"step": "lifecycle", "outcome": "probe.crashed", "elapsedMs": 13396, "signal": "SIGKILL"}
+  ],
+  "crash": {"signal": "SIGKILL"},
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-IlHJjk/child.stderr.log", "sha256": "70c12ace702adbd7a8aaf8f0b63b48081676e4be266b59fc74fa91c533471edd", "bytes": 4327}]
+}

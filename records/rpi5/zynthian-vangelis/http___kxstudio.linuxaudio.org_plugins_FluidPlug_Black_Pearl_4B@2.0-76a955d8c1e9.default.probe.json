@@ -1,0 +1,45 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.1",
+  "run": {
+    "id": "20261027T023626Z-1ec4e-736cde07",
+    "startedAt": "2026-10-27T02:36:26+00:00",
+    "elapsedMs": 60009,
+    "complete": false,
+    "outcome": "probe.timeout",
+    "reason": "on-request",
+    "protocol": {"name": "plugin-hostd.probe-protocol", "version": 1},
+    "tools": {"runner": "plugin-hostd-probe 0.12.0", "child": "lv2_measure"},
+    "via": "runner"
+  },
+  "plugin": {"format": "lv2", "id": "http://kxstudio.linuxaudio.org/plugins/FluidPlug_Black_Pearl_4B", "version": "2.0"},
+  "binary": {"path": "FluidPlug.so", "sha256": "76a955d8c1e9297b60b46b2256b4e5352f351f02b2fbda600e2a45dded70fc93", "files": [{"path": "FluidPlug.so", "sha256": "76a955d8c1e9297b60b46b2256b4e5352f351f02b2fbda600e2a45dded70fc93"}, {"path": "FluidPlug.ttl", "sha256": "7f7dac397e6911d2a3ec70633b8f40611d8de7e923daf5fec496fd4a9e505339"}, {"path": "manifest.ttl", "sha256": "71b7b3bc30c1e496bab300725c2a0e0a2766bb1b40baa37859b00e7a307ca18c"}, {"path": "modgui.ttl", "sha256": "fa4d634a8107d982aaa4056d114a36fe1c8ba1abe63451a6427c807fa2b873ef"}], "layout": {"scheme": "omx-layout/1", "sha256": "63a7f547312745a94aa43f691433337f13b244f17c316f1c1e951a5b57fe444b"}},
+  "machine": {
+    "class": {"arch": "aarch64", "family": "arm", "coreBand": "3-4", "clockBand": "1.5-2.5GHz", "preemptRt": false, "cstatesLimited": false},
+    "profile": {"governor": "powersave", "turbo": false, "smt": false, "preempt": "PREEMPT",
+      "cpuidle": [],
+      "meetsProtocol": false, "unmet": ["probe.profile.governor", "probe.profile.not-pinned"]},
+    "pinnedCpus": "0-3"
+  },
+  "offer": {"id": "default", "realtime": "none"},
+  "limits": {"set": "default",
+    "applied": [
+      {"limit": "wall-clock", "value": 60, "unit": "s", "by": "supervisor"},
+      {"limit": "cpu-time", "value": 540, "unit": "s", "by": "rlimit"},
+      {"limit": "memory", "value": 4294967296, "unit": "bytes", "by": "rlimit"},
+      {"limit": "files", "value": 256, "unit": "count", "by": "rlimit"},
+      {"limit": "file-size", "value": 67108864, "unit": "bytes", "by": "rlimit"},
+      {"limit": "core-dump", "value": 0, "unit": "bytes", "by": "rlimit"},
+      {"limit": "rt-priority", "value": 0, "by": "rlimit"},
+      {"limit": "no-new-privs", "by": "prctl"}
+    ],
+    "unavailable": [
+      {"limit": "tasks", "code": "probe.limit.not-implemented"}
+    ]
+  },
+  "steps": [
+    {"step": "hash", "outcome": "probe.ok", "elapsedMs": 27, "exitStatus": 0},
+    {"step": "lifecycle", "outcome": "probe.timeout", "elapsedMs": 59981, "detail": "the wall clock of 60 s passed; the process tree was killed"}
+  ],
+  "logs": [{"name": "stderr", "path": "/tmp/plugin-qualify-probe-ZxiXdi/child.stderr.log", "sha256": "1e397f0f46abf4bcaa9fbc97b5b81435d46dd60518b0a641be7cd368b7997d59", "bytes": 3501}]
+}
