@@ -35,6 +35,8 @@ jobs:
       dependencies: ''
       requires: ''
       channel-deps: false
+      # the changelog is regenerated from git by a python3 script
+      build-packages: python3
       suite-matrix: '["trixie"]'
       arch-matrix: '["amd64"]'
     secrets: inherit
