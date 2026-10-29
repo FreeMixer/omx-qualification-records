@@ -15,7 +15,7 @@ jobs:
       - env: { GH_TOKEN: '${{ github.token }}' }
         run: |
           set -euo pipefail
-          apt-get install -y --no-install-recommends plugin-qualify swh-lv2 x42-plugins dpf-plugins-lv2
+          apt-get install -y --no-install-recommends plugin-qualify lv2vocoder
           gh release download v0.17.0 -R FreeMixer/plugin-qualify -p '*.tgz' -D /tmp/t
           d=/usr/lib/node_modules/@openmixer/plugin-qualify
           rm -rf /tmp/t/x && mkdir /tmp/t/x && tar -xzf /tmp/t/*.tgz -C /tmp/t/x
