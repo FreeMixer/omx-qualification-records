@@ -26,7 +26,9 @@ jobs:
   deb:
     uses: FreeMixer/.github/.github/workflows/build-deb.yml@v1
     with:
-      package-name: omx-qualification-rpi5-zynthian-vangelis
+      # the source package is named for the repository, which keeps the .changes file name short for lintian
+      package-name: omx-qualification-records
+      binary-names: omx-qualification-rpi5-zynthian-vangelis
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       # the records are data for plugin-qualify on a Raspberry Pi 5 running Debian trixie (Zynthian's base):
       # no build dependency beyond debhelper, and one package for all architectures
@@ -58,7 +60,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: omx-qualification-rpi5-zynthian-vangelis-debs-trixie-amd64
+          name: omx-qualification-records-debs-trixie-amd64
           path: pkgs
 
       - name: Prepare the container

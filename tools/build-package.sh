@@ -69,12 +69,11 @@ cp -r "$tmp/$rel" "$root/records/$class/$set_"
 # the package's own control is the source of debian/control: its Depends and Description follow the tool
 depends=$(sed -n 's/^Depends: //p' "$tmp/control")
 {
-    sed -n '/^Source:/,/^$/p' "$root/debian/control" | sed "s/^Source: .*/Source: $name/"
+    sed -n '/^Source:/,/^$/p' "$root/debian/control"
     printf 'Package: %s\nArchitecture: all\nMulti-Arch: foreign\nDepends: ${misc:Depends}, %s\n' "$name" "$depends"
     sed -n '/^Description:/,$p' "$tmp/control"
 } > "$tmp/control.new"
 mv "$tmp/control.new" "$root/debian/control"
 echo "records/$class/$set_ usr/share/omx/qualification/$class" > "$root/debian/install"
-sed -i "s/^[a-z0-9.+-]* (.*) unstable/$name ($version) unstable/" "$root/debian/changelog"
-for f in "$root"/debian/*.lintian-overrides; do [ -f "$f" ] && git mv -f "$f" "$root/debian/$name.lintian-overrides" 2>/dev/null || true; done
+sed -i "1s/^\\([a-z0-9.+-]*\\) (.*) unstable/\\1 ($version) unstable/" "$root/debian/changelog"
 echo "$name $version: $(ls "$root/records/$class/$set_" | wc -l) files; review git diff"
