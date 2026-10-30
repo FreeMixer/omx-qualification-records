@@ -1,3 +1,11 @@
+omx-qualification-records (2026103001) unstable; urgency=medium
+
+  * The records of 2026.10.29, unchanged, under the dated version scheme
+    YYYYMMDDXX. The package is the one the channel held, repacked under
+    this version.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 30 Oct 2026 12:00:00 +0100
+
 omx-qualification-records (2026.10.29) unstable; urgency=medium
 
   * The records of the zynthian-vangelis plugin set measured on a Raspberry Pi 5.
