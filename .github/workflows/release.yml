@@ -6,6 +6,13 @@ name: release
 # attaches it to the GitHub release. A manual run builds and proves the same and publishes nothing unless
 # `publish` is set, and even then only on a tag. The build and the publish are in FreeMixer/.github; the
 # secrets (OPENMIXER_PACKAGES_SIGNING_KEY, PAGES_TOKEN) are the organisation's.
+#
+# A tagged commit that carries debian/republish does not build: it takes a package the channel already holds,
+# repacks it under the version debian/changelog names (dpkg-deb -R, the Version field, dpkg-deb -b; every file it
+# installs byte for byte the same, which the job checks), and publishes that through the same publish step. It
+# renames a published set without measuring or building it again. The file says, one per line:
+#   from <version>          the version the channel holds
+#   at <channel commit>     the commit of FreeMixer/freemixer.github.io that holds it (the tree is read there)
 
 on:
   push:
@@ -23,7 +30,34 @@ permissions:
   actions: read
 
 jobs:
+  plan:
+    name: Build or republish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      from: ${{ steps.read.outputs.from }}
+      at: ${{ steps.read.outputs.at }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: read
+        run: |
+          set -euo pipefail
+          if [ -f debian/republish ]; then
+            from=$(awk '$1 == "from" {print $2}' debian/republish)
+            at=$(awk '$1 == "at" {print $2}' debian/republish)
+            [ -n "$from" ] && [ -n "$at" ] || { echo "::error::debian/republish needs a from and an at line"; exit 1; }
+            echo "from=$from" >> "$GITHUB_OUTPUT"
+            echo "at=$at" >> "$GITHUB_OUTPUT"
+            echo "republish $from (channel $at)"
+          else
+            echo "build from debian/"
+          fi
+
   deb:
+    needs: plan
+    if: needs.plan.outputs.from == ''
     uses: FreeMixer/.github/.github/workflows/build-deb.yml@v1
     with:
       # the source package is named for the repository, which keeps the .changes file name short for lintian
@@ -46,10 +80,123 @@ jobs:
   # image's other Debian plugins have since been rebuilt, so their records rightly do not apply). The sync takes it
   # from the records and measures nothing. If Debian rebuilds lv2vocoder this step fails with `binary differs`: pick
   # another plugin whose installed files still hash as a record's.
+  # The republish: the channel's package under this commit's version, every installed file unchanged.
+  repack:
+    name: Repack ${{ needs.plan.outputs.from }} under this version
+    needs: plan
+    if: needs.plan.outputs.from != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    container:
+      image: debian:trixie
+    env:
+      FROM: ${{ needs.plan.outputs.from }}
+      AT: ${{ needs.plan.outputs.at }}
+      PKG: omx-qualification-rpi5-zynthian-vangelis
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repack
+        run: |
+          set -euo pipefail
+          apt-get update -qq
+          apt-get install -y --no-install-recommends ca-certificates curl dpkg-dev
+          to=$(dpkg-parsechangelog -S Version)
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            [ "$GITHUB_REF_NAME" = "v$to" ] || { echo "::error::tag $GITHUB_REF_NAME is not v$to (debian/changelog)"; exit 1; }
+          fi
+          dpkg --compare-versions "$to" gt "$FROM" || { echo "::error::$to does not sort above $FROM"; exit 1; }
+          old=${PKG}_${FROM}_all.deb
+          curl -fsSL -o "$old" "https://raw.githubusercontent.com/FreeMixer/freemixer.github.io/$AT/deb/debian/trixie/all/$old"
+          [ "$(dpkg-deb -f "$old" Package)" = "$PKG" ] && [ "$(dpkg-deb -f "$old" Version)" = "$FROM" ]
+          dpkg-deb -R "$old" pkg
+          sed -i "s/^Version: .*/Version: $to/" pkg/DEBIAN/control
+          mkdir -p out/trixie
+          new=out/trixie/${PKG}_${to}_all.deb
+          dpkg-deb -b --root-owner-group pkg "$new"
+          # the files it installs, byte for byte, and their modes: the same set under another version
+          inv() { dpkg-deb --fsys-tarfile "$1" | tar -tv --numeric-owner | awk '{print $1, $3, $6}' | sort; }
+          cmp <(inv "$old") <(inv "$new") || { echo "::error::the repacked listing differs"; exit 1; }
+          sums() { local d; d=$(mktemp -d); dpkg-deb -x "$1" "$d"; (cd "$d" && find . -type f -exec sha256sum {} + | sort -k2); }
+          cmp <(sums "$old") <(sums "$new") || { echo "::error::the repacked contents differ"; exit 1; }
+          echo "$old -> $(basename "$new"): $(sums "$new" | wc -l) files unchanged"
+          dpkg-deb -I "$new" | sed -n '/Package:/,$p'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omx-qualification-records-debs-trixie-amd64
+          path: out
+          if-no-files-found: error
+          retention-days: 30
+
+  publish-repacked:
+    name: Sign and publish the repacked package
+    needs: repack
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container:
+      image: debian:trixie
+    concurrency:
+      group: publish-FreeMixer/freemixer.github.io-live
+      cancel-in-progress: false
+    steps:
+      - uses: FreeMixer/.github/.github/actions/release-preflight@v1
+        with:
+          publish: true
+          tag: ${{ github.ref_name }}
+          target: FreeMixer/freemixer.github.io
+          gpg-key: ${{ secrets.OPENMIXER_PACKAGES_SIGNING_KEY }}
+          pages-token: ${{ secrets.PAGES_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: omx-qualification-records-debs-*
+          merge-multiple: true
+          path: collected
+      - uses: FreeMixer/.github/.github/actions/publish-debs@v1
+        with:
+          deb-dir: collected
+          tag: ${{ github.ref_name }}
+          sign: true
+          gpg-key: ${{ secrets.OPENMIXER_PACKAGES_SIGNING_KEY }}
+          cosign-key: ${{ secrets.RPM_GPG_KEY }}
+          cosign-passphrase: ${{ secrets.RPM_GPG_PASSPHRASE }}
+          publish-token: ${{ secrets.PAGES_TOKEN }}
+          site-gpg-key: ${{ secrets.SITE_GPG_KEY }}
+          channel: FreeMixer/freemixer.github.io
+          requires: ''
+          changelogs-url: https://www.openmixer.org/deb/changelogs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: omx-qualification-records-debs-signed
+          path: signed/*.deb
+          if-no-files-found: error
+          retention-days: 30
+
+  release-repacked:
+    name: GitHub release of the repacked package
+    needs: [plan, publish-repacked]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: omx-qualification-records-debs-signed
+          path: signed
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          FROM: ${{ needs.plan.outputs.from }}
+        run: |
+          set -euo pipefail
+          for deb in signed/*.deb; do base=$(basename "$deb" .deb); cp "$deb" "${base%_*}_trixie_${base##*_}.deb"; done
+          gh release create "$TAG" ./*_trixie_*.deb --title "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --notes "The records of v${FROM#v}, unchanged, under the version $TAG names."
+
   installed:
     name: Install and sync (trixie, arm64)
-    needs: deb
-    if: ${{ !cancelled() && needs.deb.result == 'success' }}
+    needs: [deb, repack]
+    if: ${{ !cancelled() && (needs.deb.result == 'success' || needs.repack.result == 'success') }}
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 30
     permissions:

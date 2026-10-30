@@ -87,6 +87,17 @@ installs it in Debian trixie on arm64 with plugin-qualify from the channel and D
 (`distributed: ... applied`), signs the apt index and publishes into the channel. A manual run (`workflow_dispatch`)
 does everything except publishing.
 
+## Versions
+
+A records package is versioned by the date its records are published: `YYYYMMDDXX`, the year, month and day
+followed by the day's serial, `01` for the first release of the day. No dots or other separators: `2026103001`.
+The tag is `v` and the version (`v2026103001`). These numbers sort in time order for both dpkg and rpm, so a
+device always upgrades to the newer set; the first release, `2026.10.29`, sorts below all of them.
+
+A tagged commit with `debian/republish` does not build: it repacks a package the channel holds under the new
+version, every installed file unchanged (see `.github/workflows/release.yml`). `2026103001` is the `2026.10.29`
+package under the new scheme, so its files, `provenance.json` included, still name `2026.10.29`.
+
 ## Provenance of this set
 
 | | |
