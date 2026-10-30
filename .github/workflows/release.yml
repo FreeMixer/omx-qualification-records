@@ -91,6 +91,10 @@ jobs:
       contents: read
     container:
       image: debian:trixie
+    # the checks use process substitution: bash, not a container's default sh
+    defaults:
+      run:
+        shell: bash
     env:
       FROM: ${{ needs.plan.outputs.from }}
       AT: ${{ needs.plan.outputs.at }}
