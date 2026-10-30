@@ -133,9 +133,27 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  # the checks a publish needs (the secrets, the channel reachable), on the runner as build-deb.yml runs them: the
+  # Debian container of the publish has no curl
+  preflight-repacked:
+    name: Check the release can publish
+    needs: plan
+    if: needs.plan.outputs.from != '' && github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: FreeMixer/.github/.github/actions/release-preflight@v1
+        with:
+          publish: true
+          tag: ${{ github.ref_name }}
+          target: FreeMixer/freemixer.github.io
+          gpg-key: ${{ secrets.OPENMIXER_PACKAGES_SIGNING_KEY }}
+          pages-token: ${{ secrets.PAGES_TOKEN }}
+
   publish-repacked:
     name: Sign and publish the repacked package
-    needs: repack
+    needs: [repack, preflight-repacked]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -145,13 +163,6 @@ jobs:
       group: publish-FreeMixer/freemixer.github.io-live
       cancel-in-progress: false
     steps:
-      - uses: FreeMixer/.github/.github/actions/release-preflight@v1
-        with:
-          publish: true
-          tag: ${{ github.ref_name }}
-          target: FreeMixer/freemixer.github.io
-          gpg-key: ${{ secrets.OPENMIXER_PACKAGES_SIGNING_KEY }}
-          pages-token: ${{ secrets.PAGES_TOKEN }}
       - uses: actions/download-artifact@v4
         with:
           pattern: omx-qualification-records-debs-*

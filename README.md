@@ -96,7 +96,7 @@ The tag is `v` and the version (`v2026103001`). These numbers sort in time order
 device always upgrades to the newer set; the first release, `2026.10.29`, sorts below all of them.
 
 A tagged commit with `debian/republish` does not build: it repacks a package the channel holds under the new
-version, every installed file unchanged (see `.github/workflows/release.yml`). `2026103002` is the `2026.10.29`
+version, every installed file unchanged (see `.github/workflows/release.yml`). `2026103003` is the `2026.10.29`
 package under the new scheme, so its files, `provenance.json` included, still name `2026.10.29`.
 
 ## Provenance of this set

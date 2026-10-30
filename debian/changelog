@@ -1,3 +1,10 @@
+omx-qualification-records (2026103003) unstable; urgency=medium
+
+  * 2026103002 stopped before it published (its publish could not run its
+    checks); the same package under the next serial.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 30 Oct 2026 16:00:00 +0100
+
 omx-qualification-records (2026103002) unstable; urgency=medium
 
   * The 2026103001 release did not publish (its repack stopped before it
