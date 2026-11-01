@@ -317,6 +317,8 @@ jobs:
         run: |
           set -euo pipefail
           set_dir=records/x86-64/fedora44
+          # fedora:44 has no python3; the next line reads provenance.json with it
+          dnf install -y --setopt=install_weak_deps=False python3
           ver=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["packages"]["omx-plugins-clap"].split(":")[-1].rsplit("-",1)[0])' "$set_dir/provenance.json")
           dnf install -y --setopt=install_weak_deps=False ./pkgs/omx-qualification-x86-64-fedora44-*.noarch.rpm \
             "omx-plugins-clap-$ver" "omx-plugins-lv2-$ver"
