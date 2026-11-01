@@ -1,0 +1,643 @@
+{
+  "format": "plugin-hostd.probe-output",
+  "formatVersion": "1.4",
+  "run": {
+    "id": "20261101T225716Z-18e3-68bff504",
+    "startedAt": "2026-11-01T22:57:16+00:00",
+    "elapsedMs": 2215,
+    "complete": false,
+    "outcome": "probe.crashed",
+    "reason": "on-request",
+    "protocol": {
+      "name": "plugin-hostd.probe-protocol",
+      "version": 1
+    },
+    "tools": {
+      "runner": "plugin-hostd-probe 0.15.8",
+      "child": "clap-qualify"
+    },
+    "via": "runner",
+    "realtime": {
+      "class": "none",
+      "priority": 0,
+      "requested": 99,
+      "grantedBy": "none",
+      "reason": "no CAP_SYS_NICE and an RLIMIT_RTPRIO hard limit of 0; this version does not ask rtkit",
+      "capabilityBound": true,
+      "observed": {
+        "policy": "other",
+        "priority": 0
+      }
+    },
+    "memoryLock": {
+      "locked": false,
+      "limitBytes": 8388608,
+      "reason": "RLIMIT_MEMLOCK is 8388608 bytes, below the memory limit of 6442450944: a lock would fail the plugin's own allocations first"
+    },
+    "parts": [
+      {
+        "id": "20261101T225716Z-18e3-68bff504",
+        "outcome": "probe.crashed",
+        "rates": [
+          48000
+        ],
+        "quantum": 512,
+        "elapsedMs": 2215
+      }
+    ]
+  },
+  "plugin": {
+    "format": "clap",
+    "id": "com.qpitch.autotune"
+  },
+  "binary": {
+    "path": "/usr/lib64/clap/QPitch.clap",
+    "sha256": "44d38b2bd7d16b3de8d000f1515231943a4e6282d7f0d0468f5626bca4c83248",
+    "files": [
+      {
+        "path": "QPitch.clap",
+        "sha256": "44d38b2bd7d16b3de8d000f1515231943a4e6282d7f0d0468f5626bca4c83248"
+      }
+    ]
+  },
+  "machine": {
+    "class": {
+      "arch": "x86_64",
+      "family": "amd",
+      "coreBand": "9-16",
+      "clockBand": "4.5GHz+",
+      "preemptRt": false,
+      "cstatesLimited": false
+    },
+    "profile": {
+      "governor": "powersave",
+      "turbo": true,
+      "smt": true,
+      "preempt": "PREEMPT_DYNAMIC",
+      "cpuidle": [
+        {
+          "cpu": 0,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 80
+        },
+        {
+          "cpu": 0,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 3446
+        },
+        {
+          "cpu": 0,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 5115
+        },
+        {
+          "cpu": 0,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 253
+        },
+        {
+          "cpu": 1,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 164
+        },
+        {
+          "cpu": 1,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 2394
+        },
+        {
+          "cpu": 1,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 4917
+        },
+        {
+          "cpu": 1,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 383
+        },
+        {
+          "cpu": 2,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 119
+        },
+        {
+          "cpu": 2,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 3666
+        },
+        {
+          "cpu": 2,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 4493
+        },
+        {
+          "cpu": 2,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 218
+        },
+        {
+          "cpu": 3,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 119
+        },
+        {
+          "cpu": 3,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 3161
+        },
+        {
+          "cpu": 3,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 4376
+        },
+        {
+          "cpu": 3,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 508
+        },
+        {
+          "cpu": 4,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 185
+        },
+        {
+          "cpu": 4,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 2805
+        },
+        {
+          "cpu": 4,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 4592
+        },
+        {
+          "cpu": 4,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 509
+        },
+        {
+          "cpu": 5,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 185
+        },
+        {
+          "cpu": 5,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 2179
+        },
+        {
+          "cpu": 5,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 3390
+        },
+        {
+          "cpu": 5,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 434
+        },
+        {
+          "cpu": 6,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 90
+        },
+        {
+          "cpu": 6,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 1434
+        },
+        {
+          "cpu": 6,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 2693
+        },
+        {
+          "cpu": 6,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 338
+        },
+        {
+          "cpu": 7,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 112
+        },
+        {
+          "cpu": 7,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 2726
+        },
+        {
+          "cpu": 7,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 3894
+        },
+        {
+          "cpu": 7,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 284
+        },
+        {
+          "cpu": 8,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 100
+        },
+        {
+          "cpu": 8,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 4527
+        },
+        {
+          "cpu": 8,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 5070
+        },
+        {
+          "cpu": 8,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 217
+        },
+        {
+          "cpu": 9,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 44
+        },
+        {
+          "cpu": 9,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 1375
+        },
+        {
+          "cpu": 9,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 2047
+        },
+        {
+          "cpu": 9,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 119
+        },
+        {
+          "cpu": 10,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 88
+        },
+        {
+          "cpu": 10,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 3289
+        },
+        {
+          "cpu": 10,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 3919
+        },
+        {
+          "cpu": 10,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 280
+        },
+        {
+          "cpu": 11,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 36
+        },
+        {
+          "cpu": 11,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 1259
+        },
+        {
+          "cpu": 11,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 1132
+        },
+        {
+          "cpu": 11,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 123
+        },
+        {
+          "cpu": 12,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 21
+        },
+        {
+          "cpu": 12,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 315
+        },
+        {
+          "cpu": 12,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 618
+        },
+        {
+          "cpu": 12,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 100
+        },
+        {
+          "cpu": 13,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 64
+        },
+        {
+          "cpu": 13,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 580
+        },
+        {
+          "cpu": 13,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 1481
+        },
+        {
+          "cpu": 13,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 181
+        },
+        {
+          "cpu": 14,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 70
+        },
+        {
+          "cpu": 14,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 1059
+        },
+        {
+          "cpu": 14,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 2318
+        },
+        {
+          "cpu": 14,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 230
+        },
+        {
+          "cpu": 15,
+          "state": "POLL",
+          "latencyUs": 0,
+          "disabled": false,
+          "usageDelta": 80
+        },
+        {
+          "cpu": 15,
+          "state": "C1",
+          "latencyUs": 1,
+          "disabled": false,
+          "usageDelta": 1923
+        },
+        {
+          "cpu": 15,
+          "state": "C2",
+          "latencyUs": 18,
+          "disabled": false,
+          "usageDelta": 2435
+        },
+        {
+          "cpu": 15,
+          "state": "C3",
+          "latencyUs": 350,
+          "disabled": false,
+          "usageDelta": 151
+        }
+      ],
+      "meetsProtocol": false,
+      "unmet": [
+        "probe.profile.governor",
+        "probe.profile.deep-idle-entered",
+        "probe.profile.not-pinned"
+      ]
+    },
+    "pinnedCpus": "0-15"
+  },
+  "offer": {
+    "id": "custom",
+    "realtime": "none"
+  },
+  "limits": {
+    "set": "default",
+    "applied": [
+      {
+        "limit": "wall-clock",
+        "value": 60,
+        "unit": "s",
+        "by": "supervisor"
+      },
+      {
+        "limit": "cpu-time",
+        "value": 540,
+        "unit": "s",
+        "by": "rlimit"
+      },
+      {
+        "limit": "memory",
+        "value": 6442450944,
+        "unit": "bytes",
+        "by": "rlimit"
+      },
+      {
+        "limit": "files",
+        "value": 256,
+        "unit": "count",
+        "by": "rlimit"
+      },
+      {
+        "limit": "file-size",
+        "value": 67108864,
+        "unit": "bytes",
+        "by": "rlimit"
+      },
+      {
+        "limit": "core-dump",
+        "value": 0,
+        "unit": "bytes",
+        "by": "rlimit"
+      },
+      {
+        "limit": "rt-priority",
+        "value": 0,
+        "by": "rlimit"
+      },
+      {
+        "limit": "rt-time",
+        "value": 60000000,
+        "unit": "us",
+        "by": "rlimit"
+      },
+      {
+        "limit": "memory-lock",
+        "value": 8388608,
+        "unit": "bytes",
+        "by": "rlimit"
+      },
+      {
+        "limit": "no-new-privs",
+        "by": "prctl"
+      }
+    ],
+    "unavailable": [
+      {
+        "limit": "memory",
+        "code": "probe.limit.controller-not-delegated"
+      },
+      {
+        "limit": "tasks",
+        "code": "probe.limit.not-implemented"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step": "hash",
+      "outcome": "probe.ok",
+      "elapsedMs": 2
+    },
+    {
+      "step": "lifecycle",
+      "outcome": "probe.crashed",
+      "elapsedMs": 2211,
+      "signal": "SIGABRT"
+    }
+  ],
+  "crash": {
+    "signal": "SIGABRT"
+  },
+  "logs": [
+    {
+      "name": "stderr",
+      "path": "/tmp/plugin-qualify-probe-2OWqWv/child.stderr.log",
+      "sha256": "15ea15475271aba066426cd83bd0a83ab266a31c7e1af714ebd1d1c08492df38",
+      "bytes": 620
+    }
+  ],
+  "grid": [
+    {
+      "rate": 48000,
+      "quantum": 512,
+      "outcome": "probe.crashed"
+    }
+  ]
+}

@@ -3,7 +3,9 @@ name: release
 # A version tag builds the records package (Architecture: all, from debian/), lints it, proves it installs
 # in Debian trixie on arm64 beside plugin-qualify from the channel and that plugin-qualify-sync --system takes
 # plugins from it, then signs it and publishes it into the deb/ tree of the FreeMixer Pages repository, and
-# attaches it to the GitHub release. A manual run builds and proves the same and publishes nothing unless
+# attaches it to the GitHub release. The same tag builds the Fedora set's RPM (noarch, from
+# packaging/omx-qualification-records.spec, whose Version is the tag's too), publishes it into the rpm/ tree, and
+# proves in Fedora 44 that plugin-qualify-sync --system takes the channel's own plugins from it. A manual run builds and proves the same and publishes nothing unless
 # `publish` is set, and even then only on a tag. The build and the publish are in FreeMixer/.github; the
 # secrets (OPENMIXER_PACKAGES_SIGNING_KEY, PAGES_TOKEN) are the organisation's.
 #
@@ -205,8 +207,12 @@ jobs:
         run: |
           set -euo pipefail
           for deb in signed/*.deb; do base=$(basename "$deb" .deb); cp "$deb" "${base%_*}_trixie_${base##*_}.deb"; done
-          gh release create "$TAG" ./*_trixie_*.deb --title "$TAG" --repo "$GITHUB_REPOSITORY" \
-            --notes "The records of v${FROM#v}, unchanged, under the version $TAG names."
+          # the RPM job of the same tag may have made the release first
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 ||
+            ! gh release create "$TAG" ./*_trixie_*.deb --title "$TAG" --repo "$GITHUB_REPOSITORY" \
+              --notes "The records of v${FROM#v}, unchanged, under the version $TAG names."; then
+            gh release upload "$TAG" ./*_trixie_*.deb --clobber --repo "$GITHUB_REPOSITORY"
+          fi
 
   installed:
     name: Install and sync (trixie, arm64)
@@ -256,6 +262,75 @@ jobs:
           set -euo pipefail
           mkdir -p /etc/omx
           printf 'host_class rpi5\nlv2_extra\nhostd_port 0\n' > /etc/omx/qualify.conf
+          plugin-qualify-sync --system 2>&1 | tee sync.log
+          applied=$(grep -c 'distributed: .*: applied' sync.log || true)
+          echo "applied: $applied"
+          [ "$applied" -gt 0 ] || { echo "::error::no plugin was taken from the records"; exit 1; }
+          if grep -E 'distributed: .*(binary differs|not applied|measured here)' sync.log; then
+            echo "::error::a plugin of the set was measured instead of taken from the records"; exit 1
+          fi
+          ls /var/lib/omx/qualification/*.qualification.json | wc -l
+
+  # The Fedora set: one noarch RPM, built from packaging/ by the organisation's RPM path (its %check runs
+  # tools/check-records.py over the installed set), signed and published into the rpm/ tree on a tag.
+  rpm:
+    uses: FreeMixer/.github/.github/workflows/build-rpm.yml@v1
+    with:
+      package-name: omx-qualification-records
+      binary-names: omx-qualification-x86-64-fedora44
+      publish: ${{ github.event_name == 'push' || inputs.publish == true }}
+      # noarch data: built once; no mod-host, no channel BuildRequires
+      arch-matrix: '["x86_64"]'
+      needs-mod-host: false
+      channel-deps: false
+    secrets: inherit
+
+  # The RPM installed where it is used: Fedora 44 x86_64 with plugin-qualify and the channel's omx-plugins at the
+  # version the set measured (provenance.json). A container has no device tree, and an x86_64 machine never has one,
+  # so the host class is the settings file's. The sync takes the omx plugins from the records and measures nothing.
+  # When the channel's omx-plugins of that version is rebuilt with other bytes this step fails with `binary
+  # differs`: the set is then due to be measured again.
+  rpm-installed:
+    name: Install and sync (Fedora 44, x86_64)
+    needs: rpm
+    if: ${{ !cancelled() && needs.rpm.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    container:
+      image: fedora:44
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: omx-qualification-records-rpms-x86_64
+          path: pkgs
+
+      - uses: FreeMixer/.github/.github/actions/add-openmixer@v1
+
+      - name: Install the package
+        run: |
+          set -euo pipefail
+          set_dir=records/x86-64/fedora44
+          ver=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["packages"]["omx-plugins-clap"].split(":")[-1].rsplit("-",1)[0])' "$set_dir/provenance.json")
+          dnf install -y --setopt=install_weak_deps=False ./pkgs/omx-qualification-x86-64-fedora44-*.noarch.rpm \
+            "omx-plugins-clap-$ver" "omx-plugins-lv2-$ver"
+          rpm -q plugin-qualify omx-plugins-clap omx-plugins-lv2
+          test -f /usr/share/omx/qualification/x86-64/fedora44/provenance.json
+          n=$(ls /usr/share/omx/qualification/x86-64/fedora44/*.qualification.json | wc -l)
+          echo "$n records installed"
+          [ "$n" -eq "$(ls "$set_dir"/*.qualification.json | wc -l)" ]
+
+      - name: plugin-qualify-sync --system applies the records
+        run: |
+          set -euo pipefail
+          mkdir -p /etc/omx
+          printf 'host_class x86-64\nclap_extra /usr/lib64/clap\nhostd_port 0\n' > /etc/omx/qualify.conf
           plugin-qualify-sync --system 2>&1 | tee sync.log
           applied=$(grep -c 'distributed: .*: applied' sync.log || true)
           echo "applied: $applied"
