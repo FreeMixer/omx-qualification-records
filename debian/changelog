@@ -1,3 +1,10 @@
+omx-qualification-records (2026110101) unstable; urgency=medium
+
+  * The Zynthian package is unchanged: the 2026.10.29 records under the
+    version this release gives the new Fedora set's RPM.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Mon, 02 Nov 2026 01:00:00 +0100
+
 omx-qualification-records (2026103003) unstable; urgency=medium
 
   * 2026103002 stopped before it published (its publish could not run its

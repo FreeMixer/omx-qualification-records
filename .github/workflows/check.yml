@@ -1,0 +1,32 @@
+name: check
+
+# Every record set under records/ read as plugin-qualify-sync reads it (tools/check-records.py): its provenance names
+# its set and host class, every record has its probe output beside it with the size and SHA-256 it names, and nothing
+# else is shipped. The RPM's %check and the release run the same script.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  records:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/check-records.py
+      - name: The spec names a set this tree holds
+        run: |
+          set -euo pipefail
+          spec=packaging/omx-qualification-records.spec
+          class=$(sed -n 's/^%global host_class //p' "$spec")
+          set_=$(sed -n 's/^%global set_name //p' "$spec")
+          test -f "records/$class/$set_/provenance.json"
+          # one version for both formats: the tag must equal both
+          deb=$(sed -n '1s/^[^(]*(\([^)]*\)).*/\1/p' debian/changelog)
+          rpm=$(sed -n 's/^Version: *//p' "$spec")
+          [ "$deb" = "$rpm" ] || { echo "::error::debian/changelog is $deb but the spec is $rpm; a tag must equal both"; exit 1; }

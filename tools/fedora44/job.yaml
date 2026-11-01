@@ -1,0 +1,202 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+#
+# The Job that measured records/x86-64/fedora44 (see measure.sh). The script goes in first as a ConfigMap:
+#
+#   kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh
+#   kubectl apply -f tools/fedora44/job.yaml
+#   # when /out/done exists:
+#   kubectl -n omx-worker cp <pod>:/out ./fedora44-run
+#
+# The namespace's pod security is baseline: no CAP_SYS_NICE and RLIMIT_RTPRIO 0, so nothing in the pod gets
+# SCHED_FIFO (the records say realtime none). PLUGINS is the worker image's set, lv2-plugins then clap-plugins.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: omx-qualify-fedora44
+  namespace: omx-worker
+  labels: {app: omx-qualify-records}
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 50400
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels: {app: omx-qualify-records}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - {key: kubernetes.io/hostname, operator: In, values: [h2.superpantalles.com]}
+      containers:
+      - name: measure
+        image: registry.fedoraproject.org/fedora:44
+        command: [/bin/bash, /script/measure.sh]
+        env:
+        - {name: HOST_CLASS, value: x86-64}
+        - {name: GRID, value: "48000/512"}
+        - {name: MEMORY_LIMIT, value: "6G"}
+        - name: PLUGINS
+          value: >-
+            caps-lv2
+            dragonfly-reverb
+            lv2-airwindows
+            lv2-dragonfly-reverb
+            lv2-stereocrossdelay
+            clap-actuate
+            clap-adt
+            clap-aeolus_plugin
+            clap-aida-x
+            clap-airwin2rack
+            clap-ampb
+            clap-ampforge
+            clap-ampg
+            clap-BYOD
+            clap-cardinal
+            clap-cchorus
+            clap-cetone033-synth
+            clap-cetone-synth
+            clap-cetone-synth-light
+            clap-chaffverb
+            clap-ChowKick
+            clap-ChowMultiTool
+            clap-classicreverb-re02
+            clap-classicreverb-re03
+            clap-classicreverb-re04
+            clap-crushfuzz
+            clap-cstop
+            clap-dexed
+            clap-dfjpverb
+            clap-dfzitarev1
+            clap-distb
+            clap-dm-bigmuff
+            clap-dm-ds1
+            clap-dm-fuzz
+            clap-dm-rat
+            clap-dm-repeat
+            clap-dm-reverb
+            clap-dm-SD1
+            clap-dm-shredmaster
+            clap-dm-Spaceecho
+            clap-dm-stutter
+            clap-dm-TimeWarp
+            clap-dm-TubeScreamer
+            clap-dm-vibrato
+            clap-dm-Whammy
+            clap-dpf-plugins
+            clap-dragonfly-reverb
+            clap-enover
+            clap-firefly-synth
+            clap-firefly-synth-2
+            clap-floe
+            clap-foam-synth
+            clap-fuzzb
+            clap-gala
+            clap-galdr
+            clap-gearmulator
+            clap-gjalla
+            clap-glslplugin
+            clap-hamburger
+            clap-Ildaeil
+            clap-info
+            clap-jc303
+            clap-letsdist
+            clap-loadbox
+            clap-loopino
+            clap-maolan-plugins
+            clap-master_me
+            clap-minaton-xt
+            clap-ml7
+            clap-monique-monosynth
+            clap-morpheus6
+            clap-nebula-cluster
+            clap-nebula-de-esser
+            clap-nebula-delay
+            clap-nebula-stereo-delay
+            clap-niner
+            clap-nine-strip
+            clap-node-sound
+            clap-noiserf
+            clap-obxf
+            clap-octasine
+            clap-onetrick-bboi
+            clap-onetrick-chonk
+            clap-onetrick-cryptid
+            clap-onetrick-keys
+            clap-onetrick-simian2
+            clap-onetrick-urchin
+            clap-openwurli
+            clap-plugdata
+            clap-podcastplugins
+            clap-qpitch
+            clap-ratatouille
+            clap-rccomp
+            clap-rcverb
+            clap-retrotrax
+            clap-retuner
+            clap-roomreverb
+            clap-rustick
+            clap-rustortion
+            clap-rustydrumgizmo
+            clap-satordist2
+            clap-scrollscope
+            clap-sendmixer
+            clap-sg-323
+            clap-six-sines
+            clap-smallmuffin
+            clap-smoothir
+            clap-spectmorph
+            clap-spectralshift
+            clap-spectrumworx
+            clap-spiro
+            clap-springs
+            clap-stereocrossdelay
+            clap-stochas
+            clap-stomptuner
+            clap-suboctb
+            clap-surge-xt
+            clap-terrain
+            clap-ToneShiftEQ
+            clap-ToneTwistPlugs
+            clap-tuneb
+            clap-ultramaster-kr106
+            clap-unplugred
+            clap-vswell
+            clap-waxman
+            clap-wstd-3q
+            clap-wstd-crshr
+            clap-wstd-dl3y
+            clap-wstd-dlay
+            clap-wstd-eq
+            clap-wstd-fl3ngr
+            clap-wstd-flangr
+            clap-wstd-fldr
+            clap-wstd-m3nglr
+            clap-wstd-manglr
+            clap-wstd-mseq
+            clap-wstd-smthr
+            clap-ykchorus
+            clap-ysfx
+            clap-zam-mao-plugins
+            clap-zanhyang6
+            clap-zmann
+            lsp-plugins-clap
+        - name: NODE_NAME
+          valueFrom: {fieldRef: {fieldPath: spec.nodeName}}
+        resources:
+          requests: {cpu: "2", memory: 6Gi}
+          limits: {cpu: "3", memory: 12Gi}
+        volumeMounts:
+        - {name: script, mountPath: /script}
+        # JACK keeps its servers in /dev/shm: the runtime's 64 MiB holds one, and a second (the isolated step's private
+        # server beside the pod's own) dies of SIGBUS, taking the other with it
+        - {name: shm, mountPath: /dev/shm}
+      volumes:
+      - name: script
+        configMap: {name: omx-qualify-fedora44-script}
+      - name: shm
+        emptyDir: {medium: Memory, sizeLimit: 2Gi}
