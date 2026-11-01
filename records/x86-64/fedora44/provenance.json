@@ -188,5 +188,41 @@
     "name": "omx-qualification-x86-64-fedora44",
     "version": "2026110101"
   },
-  "date": "2026-11-01"
+  "date": "2026-11-01",
+  "leftOut": {
+    "why": "the isolated step refused these plugins with isolated.silent-output while it ran without real-time priority on a loaded node (most of its runs saw xruns); a refused record applies on a device and would keep the plugin off it on evidence not trusted, so they are left out like an unmeasured record and the device measures them itself. A CLAP binary is matched as a whole, so every record of a binary that holds such a plugin is left out.",
+    "binaries": {
+      "/usr/lib64/clap/Aeolus.clap": [
+        "com.ArthurBenilov.Aeolus"
+      ],
+      "/usr/lib64/clap/Cardinal.clap/Cardinal.clap": [
+        "studio.kx.distrho.cardinal"
+      ],
+      "/usr/lib64/clap/MPaint.clap": [
+        "com.unplugred.MPaint"
+      ],
+      "/usr/lib64/clap/Mukkemann_RetroTrax.clap": [
+        "de.mukkemann.retrotrax"
+      ],
+      "/usr/lib64/clap/NodalRed2x.clap": [
+        "com.theusualsuspects.Tn2x"
+      ],
+      "/usr/lib64/clap/OsTIrus.clap": [
+        "com.theusualsuspects.Ttip"
+      ],
+      "/usr/lib64/clap/Stochas.clap": [
+        "org.surge-synth-team.stochas"
+      ],
+      "/usr/lib64/clap/spiro.clap": [
+        "com.spiro.spiro"
+      ],
+      "/usr/lib64/clap/lsp-plugins.clap": [
+        "in.lsp-plug.ab_tester_x2_mono, and the 193 other plugins of the binary"
+      ]
+    },
+    "records": 404,
+    "unmeasured": [
+      "/usr/lib64/clap/ChowKick.clap"
+    ]
+  }
 }

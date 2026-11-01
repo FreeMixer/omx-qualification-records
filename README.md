@@ -11,7 +11,7 @@ reads before it measures anything.
 | package | host class | plugin set | records |
 | --- | --- | --- | --- |
 | `omx-qualification-rpi5-zynthian-vangelis` (deb) | `rpi5` (Raspberry Pi 5) | ZynthianOS Vangelis-2610.1 | 1886 |
-| `omx-qualification-x86-64-fedora44` (rpm) | `x86-64` (set in `/etc/omx/qualify.conf`) | Fedora 44: the OpenMixer worker image's plugins (omx-plugins, the audinux CLAP set, LSP, caps, airwindows, dragonfly) | 1070 |
+| `omx-qualification-x86-64-fedora44` (rpm) | `x86-64` (set in `/etc/omx/qualify.conf`) | Fedora 44: the OpenMixer worker image's plugins (omx-plugins, the audinux CLAP set, LSP, caps, airwindows, dragonfly), less the plugins left out below | 666 |
 
 Each package is architecture-independent (`Architecture: all`, `BuildArch: noarch`), depends on the plugin-qualify
 that reads the layer (`plugin-qualify (>= 0.17.0~)`, `plugin-qualify >= 0.17.0`), and installs
@@ -25,7 +25,8 @@ that reads the layer (`plugin-qualify (>= 0.17.0~)`, `plugin-qualify >= 0.17.0`)
 
 Each record is held with its probe output. Both are the files the measuring device wrote, unchanged. The plugins
 that could not be measured (`*.unmeasured.json`: 2 on the Zynthian device, 1 in the Fedora set) are not here: an
-unmeasured record never applies.
+unmeasured record never applies. The Fedora set also leaves out the plugins whose refusal it does not trust (see its
+provenance below): a device measures those itself.
 
 ## The matching rule
 
@@ -160,16 +161,21 @@ package under the new scheme, so its files, `provenance.json` included, still na
 | Real time | none: the namespace's pod security (baseline) grants no `CAP_SYS_NICE` and `RLIMIT_RTPRIO` is 0, so the probe and the isolated step ran under `SCHED_OTHER`; every probe output says so (`run.realtime.class: none`) |
 | Packages | plugin-qualify 0.18.5, plugin-hostd 0.15.8, omx-clap-host 0.26.2, omx-plugins 0.16.0, mod-host-protocol 0.10.6.f14a230-11.3.omx, jack-audio-connection-kit 1.9.22, lsp-plugins-clap 1.2.29, and 141 more plugin packages from the audinux COPR and Fedora (the full list is in `provenance.json`) |
 
-642 plugins (420 CLAP, 222 LV2): 628 qualified, 14 refused, 4 crashed, 1 unmeasured. Under `omx-clap-host` the CLAP
-side reads 198 suitable, 215 conditional and 11 unknown, the LV2 side 217 suitable, 4 conditional and 1 unknown.
+The run measured 642 plugins (420 CLAP, 222 LV2): 628 qualified, 14 refused, 4 crashed, 1 unmeasured, in 1070
+records. The package holds 666 of those records.
 
-The refusals are the isolated step's: `isolated.silent-output` for 9 plugins (Aeolus, Cardinal, MPaint, RetroTrax,
-NodalRed2x, OsTIrus, Spiro, Stochas, LSP's A/B tester), `isolated.non-finite-output` for ZamEQ2, and
-`isolated.not-added` (plugin-hostd answered `-509`, a pin whose files it does not accept) for Cardinal's and
-Ildaeil's LV2 variants and for some offers of 10 CLAP plugins, Surge XT among them. The isolated step plays 3 seconds
-through plugin-hostd on a JACK server without real-time priority, on a shared node, and 187 of its 223 runs saw
-xruns; a silent-output refusal measured that way is worth measuring again with real-time priority before it is
-taken as the plugin's. A machine that measures a plugin itself overwrites the record.
+Left out, besides the unmeasured one: the 9 plugins the isolated step refused with `isolated.silent-output`
+(Aeolus, Cardinal, MPaint, RetroTrax, NodalRed2x, OsTIrus, Spiro, Stochas, LSP's A/B tester). The isolated step
+plays 3 seconds through plugin-hostd on a JACK server; here that server had no real-time priority and ran on a shared
+node, and 187 of the step's 223 runs saw xruns. A refused record applies on a device and keeps the plugin off it, so a
+refusal measured that way is not shipped: the device measures the plugin itself. The sync matches a CLAP binary as a
+whole, so the whole binary of each is left out, which for `lsp-plugins.clap` is all 194 of its plugins (388 records):
+a device measures the LSP CLAP bundle itself. `provenance.json` lists them under `leftOut`.
+
+Kept: `isolated.non-finite-output` for ZamEQ2, and `isolated.not-added` for Cardinal's and Ildaeil's LV2 variants
+and some offers of other CLAP plugins (Surge XT among them), where plugin-hostd answered `-509` to the pin: its own
+refusal, not a figure the missing real-time priority could change. A machine that measures a plugin itself
+overwrites the record.
 
 Records measured under an emulated CPU are never accepted into this repository: a figure from an emulator is not
 the machine class's. `provenance.json` names the board the records were measured on, and a record set without a
