@@ -13,6 +13,10 @@ Without arguments every set under records/ is checked. A set passes when:
   beside it, whose size and SHA-256 are the ones the record names (a record with no verdict for the provenance's
   hostProfile is counted and named, not refused: the sync only skips it under that host);
 - every *.probe.json is the probe output of a record (nothing is shipped that no record judged);
+- every *.comparison.json is a plugin-qualify.comparison-record/1 (plugin-qualify compare: one plugin through
+  omx-clap-host, plugin-hostd, mod-host and jalv with the same checks), and a set that holds them holds their
+  comparison-summary.json, a publishable plugin-qualify.comparison-summary/1 of exactly those records, in which mod-host
+  and jalv ran: a comparison without its references is never shipped;
 - nothing else is in the directory (no *.unmeasured.json: an unmeasured record never applies).
 
 The exit code is 0 when every set passes and 1 otherwise; each problem is printed on its own line.
@@ -26,6 +30,97 @@ RECORD = ".qualification.json"
 PROBE = ".probe.json"
 PROVENANCE_SCHEMA = "plugin-qualify.distributed-provenance/1"
 RECORD_SCHEMA = "plugin-qualify.qualification-record/1"
+COMPARISON = ".comparison.json"
+SUMMARY = "comparison-summary.json"
+COMPARISON_SCHEMA = "plugin-qualify.comparison-record/1"
+SUMMARY_SCHEMA = "plugin-qualify.comparison-summary/1"
+HOSTS = ("omx-clap-host", "plugin-hostd", "mod-host", "jalv")
+REFERENCES = ("mod-host", "jalv")
+CHECKS = {"loads", "instantiates", "output", "cycles", "soak", "rtSafe"}
+FIGURES = {"cpu", "latency"}
+CHECK_RESULTS = {"pass", "fail", "not-observable", "not-run"}
+FIGURE_RESULTS = {"measured", "not-observable", "not-run"}
+COUNTS = ("loads", "instantiates", "output", "runsClean", "rtSafe", "rtObserved", "crashes")
+
+
+def comparison_problems(rec):
+    """What makes a comparison record not one; the rules of plugin-qualify's comparisonRecordProblems, and the checks'."""
+    out = []
+    if rec.get("schema") != COMPARISON_SCHEMA:
+        out.append(f"schema is {rec.get('schema')!r}")
+    plugin = rec.get("plugin") or {}
+    if not isinstance(plugin.get("id"), str) or not isinstance(plugin.get("format"), str):
+        out.append("names no plugin")
+    cond = rec.get("conditions") or {}
+    if not all(isinstance(cond.get(k), int) and cond.get(k) > 0 for k in ("rate", "quantum", "cycles", "soakS", "timeoutMs")):
+        out.append("its conditions name no rate, quantum, cycles, soak or timeout")
+    rows = rec.get("hosts")
+    if not isinstance(rows, list) or not rows:
+        out.append("holds no host row")
+        return out
+    seen = set()
+    for h in rows:
+        host = h.get("host")
+        if host not in HOSTS:
+            out.append(f"a row of the unknown host {host!r}")
+            continue
+        if host in seen:
+            out.append(f"{host}: two rows")
+        seen.add(host)
+        status = h.get("status")
+        if status in ("skipped", "not-applicable"):
+            if not h.get("reason"):
+                out.append(f"{host}: {status} with no reason")
+            continue
+        if status != "ran":
+            out.append(f"{host}: status {status!r}")
+            continue
+        checks = h.get("checks") or {}
+        if not isinstance(h.get("runsClean"), bool):
+            out.append(f"{host}: ran with no runsClean")
+        for k in sorted(CHECKS | FIGURES):
+            c = checks.get(k)
+            allowed = CHECK_RESULTS if k in CHECKS else FIGURE_RESULTS
+            if not isinstance(c, dict) or c.get("result") not in allowed:
+                out.append(f"{host}: check {k} is {c.get('result') if isinstance(c, dict) else c!r}")
+    return out
+
+
+def summary_problems(summary, set_name, host_class, records):
+    """A shipped summary: publishable, of this set, of exactly these records, with both references run."""
+    out = []
+    if summary.get("schema") != SUMMARY_SCHEMA:
+        out.append(f"schema is {summary.get('schema')!r}")
+    if summary.get("set") != set_name or summary.get("hostClass") != host_class:
+        out.append(f"names set {summary.get('set')!r} and host class {summary.get('hostClass')!r}, not its directory's")
+    if summary.get("publishable") is not True:
+        out.append(f"is not publishable ({'; '.join(m.get('host', '?') + ': ' + m.get('reason', '') for m in summary.get('missing') or []) or 'no --publish'})")
+    if summary.get("records") != len(records):
+        out.append(f"counts {summary.get('records')!r} records, the directory holds {len(records)}")
+    hosts = {h.get("host"): h for h in summary.get("hosts") or []}
+    for ref in REFERENCES:
+        if (hosts.get(ref) or {}).get("status") != "ran":
+            out.append(f"{ref} did not run: a comparison is measured against mod-host and jalv")
+    for name, h in hosts.items():
+        if h.get("status") == "ran" and not h.get("version"):
+            out.append(f"{name}: ran with no version")
+        plugins = h.get("plugins")
+        for k in COUNTS:
+            v = h.get(k)
+            if not isinstance(v, int) or not isinstance(plugins, int) or v < 0 or v > plugins:
+                out.append(f"{name}: {k} is {v!r} of {plugins!r} plugins")
+        # the counts are the records': recount them, so a summary never says what its records do not
+        rows = [r for rec in records for r in rec.get("hosts") or [] if r.get("host") == name and r.get("status") == "ran"]
+        recount = {
+            "plugins": len(rows),
+            "runsClean": sum(1 for r in rows if r.get("runsClean") is True),
+            "rtSafe": sum(1 for r in rows if ((r.get("checks") or {}).get("rtSafe") or {}).get("result") == "pass"),
+            "crashes": sum(1 for r in rows if r.get("crash")),
+        }
+        for k, v in recount.items():
+            if h.get(k) != v:
+                out.append(f"{name}: {k} is {h.get(k)!r}, its records give {v}")
+    return out
 
 
 def check_set(path):
@@ -58,8 +153,22 @@ def check_set(path):
     judged = set()
     records = 0
     without_verdict = 0
+    comparisons = []
     for name in names:
         if name == "provenance.json" or name.endswith(PROBE):
+            continue
+        if name.endswith(COMPARISON):
+            try:
+                with open(os.path.join(path, name), encoding="utf-8") as f:
+                    rec = json.load(f)
+            except (OSError, ValueError) as e:
+                bad(name, f"does not read ({e})")
+                continue
+            for why in comparison_problems(rec):
+                bad(name, why)
+            comparisons.append(rec)
+            continue
+        if name == SUMMARY:
             continue
         if not name.endswith(RECORD):
             bad(name, "is neither a record, a probe output nor the provenance")
@@ -100,6 +209,19 @@ def check_set(path):
     for name in names:
         if name.endswith(PROBE) and name not in judged:
             bad(name, "is the probe output of no record")
+    if SUMMARY in names:
+        try:
+            with open(os.path.join(path, SUMMARY), encoding="utf-8") as f:
+                summary = json.load(f)
+        except (OSError, ValueError) as e:
+            bad(SUMMARY, f"does not read ({e})")
+        else:
+            for why in summary_problems(summary, set_name, host_class, comparisons):
+                bad(SUMMARY, why)
+    elif comparisons:
+        bad(SUMMARY, f"is missing, and the set holds {len(comparisons)} comparison records")
+    if comparisons:
+        print(f"{path}: {len(comparisons)} comparison records")
     if records == 0:
         problems.append(f"{path}: holds no record")
     if without_verdict:
