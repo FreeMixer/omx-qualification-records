@@ -114,6 +114,33 @@ For the set the RPM spec builds, the script replaces only `records/x86-64/fedora
 record has its probe output beside it with the size and SHA-256 it names, and nothing else is shipped. The `check`
 workflow runs it on every pull request, and the RPM's `%check` runs it on the installed tree.
 
+## The host comparison
+
+A set can also hold how its plugins fare under four hosts: our two (omx-clap-host, with the LV2 adapter, and
+plugin-hostd) and the two references, mod-host and jalv. `plugin-qualify compare` runs every plugin through each host
+with the same checks (it loads, it instantiates, it gives output under a tone or notes, it survives the load cycles and
+the soak, its audio thread allocates, locks or makes a system call or not, its CPU and the latency the host reports) on
+one private JACK server at one rate and quantum, and writes one `<plugin>-<format>-<hash>.comparison.json` per plugin
+(`plugin-qualify.comparison-record/1`, a row per host, each with its version) and `comparison-summary.json`
+(`plugin-qualify.comparison-summary/1`: per host the plugins it loads, runs clean, runs real-time safe and crashes on,
+and the plugins where each host does better than the others). A check a host does not let us observe is
+`not-observable`, never a failure; a host that is not installed is a `skipped` row with its reason.
+
+On a machine of the set's class, with mod-host and jalv installed (`--publish` refuses to run without them, naming
+what is missing):
+
+```
+plugin-qualify compare --all --publish --host-class <class> --set <set> --out <dir>
+cp <dir>/*.comparison.json <dir>/comparison-summary.json records/<class>/<set>/
+python3 tools/check-records.py records/<class>/<set>
+```
+
+`tools/check-records.py` holds a set's comparison to the rules: every record is one, a set with comparison records has
+their summary, the summary is publishable, mod-host and jalv ran, and its counts are the ones its records give. The
+packages ship the files; plugin-qualify-sync reads only the qualification records. The comparison is not bound to the
+plugins' bytes as a record is, so a rebuild of the set from a device run drops it (`tools/build-package.sh` says so),
+and the new set's comparison is added after. The site's plugin pages show it per machine class.
+
 ## Release
 
 A tag `v*` runs `.github/workflows/release.yml`: it builds the package from `debian/`, runs lintian (warnings fail),

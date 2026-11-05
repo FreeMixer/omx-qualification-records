@@ -65,6 +65,10 @@ deb=$(ls "$tmp"/*.deb)
 name=$(basename "$deb" | cut -d_ -f1)
 rel=usr/share/omx/qualification/$class/$set_
 (cd "$tmp" && ar x "$deb" && tar -xJf data.tar.xz "./$rel" && tar -xJf control.tar.xz ./control)
+# a host comparison was measured on the old set's plugins: it goes with them, and the new set's is added after
+if ls "$root/records/$class/$set_/"*.comparison.json >/dev/null 2>&1; then
+    echo "records/$class/$set_: its host comparison is dropped with the old records; add the new set's (README, \"The host comparison\")" >&2
+fi
 rm -rf "${root:?}/records/$class/$set_"
 mkdir -p "$root/records/$class"
 cp -r "$tmp/$rel" "$root/records/$class/$set_"
