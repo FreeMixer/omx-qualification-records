@@ -1,3 +1,16 @@
+plugin-db-qualification (2026110601) unstable; urgency=medium
+
+  * Renamed from omx-qualification-records: the repository and the packages
+    are the qualification layer of plugin-db, plugin-db-qualification and
+    plugin-db-qualification-<host class>-<set>. The install path stays
+    /usr/share/omx/qualification/<host class>/<set>/.
+  * One current set per machine class, measured by the latest plugin-qualify:
+    the Fedora 44 x86-64 set (plugin-qualify 0.18.5) is dropped and ships
+    again when it is measured with 0.19.
+  * Depends on plugin-qualify >= 0.19.0 and < 0.20.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 06 Nov 2026 12:00:00 +0100
+
 omx-qualification-records (2026110101) unstable; urgency=medium
 
   * The Zynthian package is unchanged: the 2026.10.29 records under the

@@ -1,32 +1,61 @@
-# omx-qualification-records
+# plugin-db-qualification
 
-The distributed qualification records of plugin sets, as Debian and RPM packages.
+The qualification layer of plugin-db: plugin-qualify's records of the plugin sets of each machine class, as Debian
+and RPM packages.
 
-[plugin-qualify](https://github.com/FreeMixer/plugin-qualify) measures every LV2 and CLAP plugin of a device
-before the device hosts it. A Raspberry Pi 5 takes hours to measure a full Zynthian image. A device of the same
-machine class and the same plugin set does not need to measure it again: this repository holds the records one
-such device wrote, and publishes them as `omx-qualification-<host class>-<set>`, which `plugin-qualify-sync`
-reads before it measures anything.
+plugin-db keeps the plugin database in layers; plugin-qualify writes this one, and plugin-hostd only hosts.
+[plugin-qualify](https://github.com/FreeMixer/plugin-qualify) measures every LV2 and CLAP plugin of a machine before
+the machine hosts it. A Raspberry Pi 5 takes hours to measure a full Zynthian image. A machine of the same class and
+the same plugin set does not need to measure it again: this repository holds the records one such machine wrote, and
+publishes them as `plugin-db-qualification-<host class>-<set>`, which `plugin-qualify-sync` reads before it measures
+anything.
 
-| package | host class | plugin set | records |
+## What is offered
+
+One current set per machine class, measured by the latest plugin-qualify, and packaged only for the architecture and
+distribution that class runs. A set measured by an older plugin-qualify is dropped, not kept: the class ships nothing
+until it is measured again.
+
+| host class | machine | arch | distribution | package | records | plugin-qualify |
+| --- | --- | --- | --- | --- | --- | --- |
+| `rpi5` | Raspberry Pi 5 (ZynthianOS Vangelis) | arm64 | Debian trixie | `plugin-db-qualification-rpi5-zynthian-vangelis` (deb) | 1886 | 0.16.1: replaced by a 0.19.0 run before the next release |
+| `x86-64` | the OpenMixer worker image, and a desk | x86_64 | Fedora 44 | `plugin-db-qualification-x86-64-fedora44` (rpm) | none | not current: the 0.18.5 set was dropped |
+
+There is no Debian x86-64 class and no Fedora rpi5 class, so there is no `.deb` for x86-64 and no `.rpm` for rpi5.
+
+plugin-qualify knows a class by the board's device tree (`rpi5` on a Raspberry Pi 5) or by `host_class` in
+`/etc/omx/qualify.conf`; it does not tell machines apart by CPU or kernel. The worker image and a desk are both
+`x86-64`. The class's set is the worker image's, because it is measured in the cluster from the channel's packages
+and no live machine is touched; a desk that wants it sets `host_class x86-64`, and takes the records whose plugins it
+has with the same bytes.
+
+### How a class is measured again
+
+| class | where | command | time |
 | --- | --- | --- | --- |
-| `omx-qualification-rpi5-zynthian-vangelis` (deb) | `rpi5` (Raspberry Pi 5) | ZynthianOS Vangelis-2610.1 | 1886 |
-| `omx-qualification-x86-64-fedora44` (rpm) | `x86-64` (set in `/etc/omx/qualify.conf`) | Fedora 44: the OpenMixer worker image's plugins (omx-plugins, the audinux CLAP set, LSP, caps, airwindows, dragonfly), less the plugins left out below | 666 |
+| `rpi5` | a Raspberry Pi 5 with the ZynthianOS image, plugin-qualify from the channel | `plugin-qualify-sync --system --force --no-distributed --grid 48000/256,96000/256`, then the copy below | about 6 hours per rate (2026-10-28: 6 h at 48 kHz) |
+| `x86-64` | the cluster, a Job on h2 (`tools/fedora44/job.yaml`, a fedora:44 pod) | `kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh && kubectl apply -f tools/fedora44/job.yaml` | hours; the Job stops at 14 h (`activeDeadlineSeconds`) |
 
-Each package is architecture-independent (`Architecture: all`, `BuildArch: noarch`), depends on the plugin-qualify
-that reads the layer (`plugin-qualify (>= 0.17.0~)`, `plugin-qualify >= 0.17.0`), and installs
+A desk can measure the class too (`plugin-qualify-sync --system --force --no-distributed` with `host_class x86-64`),
+but only when nothing else runs on it: the measurement plays every plugin on the audio server.
+
+## Install path
 
 ```
-/usr/share/omx/qualification/rpi5/zynthian-vangelis/
+/usr/share/omx/qualification/<host class>/<set>/
     <plugin>@<version>-<sha256 first 12>.<offer>.qualification.json   # the record
     <same name>.probe.json                                              # the probe output the record judged, byte for byte
     provenance.json                                                     # where the set comes from
 ```
 
-Each record is held with its probe output. Both are the files the measuring device wrote, unchanged. The plugins
-that could not be measured (`*.unmeasured.json`: 2 on the Zynthian device, 1 in the Fedora set) are not here: an
-unmeasured record never applies. The Fedora set also leaves out the plugins whose refusal it does not trust (see its
-provenance below): a device measures those itself.
+plugin-db's store (`/var/lib/plugin-db`) holds a machine's own layers and names no place for shipped records, so the
+records stay where plugin-qualify-sync reads them (`distributed_dir`, `/usr/share/omx/qualification`). Each package
+is architecture-independent (`Architecture: all`, `BuildArch: noarch`) and depends on the plugin-qualify that measured
+its set, up to the next minor: `plugin-qualify (>= 0.19.0~), plugin-qualify (<< 0.20~)` and
+`(plugin-qualify >= 0.19.0 with plugin-qualify < 0.20)`.
+
+Each record is held with its probe output. Both are the files the measuring machine wrote, unchanged. The plugins
+that could not be measured (`*.unmeasured.json`) are not here: an unmeasured record never applies.
 
 ## The matching rule
 
@@ -46,7 +75,7 @@ architecture therefore never takes a measurement that is not its own.
 ## Use on a device
 
 ```
-apt install omx-qualification-rpi5-zynthian-vangelis      # from the OpenMixer channel
+apt install plugin-db-qualification-rpi5-zynthian-vangelis      # from the OpenMixer channel
 plugin-qualify-sync --system
 ```
 
@@ -62,11 +91,11 @@ run; `--force` measures everything.
 
 The channel is `https://www.openmixer.org/deb/debian/trixie/`; add it with the `openmixer-release` package.
 
-On Fedora 44 x86_64:
+On Fedora 44 x86_64, once the x86-64 set is current again:
 
 ```
 dnf install https://www.openmixer.org/rpm/openmixer-release.noarch.rpm
-dnf install omx-qualification-x86-64-fedora44
+dnf install plugin-db-qualification-x86-64-fedora44
 printf 'host_class x86-64\nclap_extra /usr/lib64/clap\n' >> /etc/omx/qualify.conf
 plugin-qualify-sync --system
 ```
@@ -74,8 +103,7 @@ plugin-qualify-sync --system
 An x86_64 machine has no device tree, so it has no class of its own: plugin-qualify-sync reads no distributed record
 until `host_class` names one. Fedora's CLAP packages (and the audinux ones) install into `/usr/lib64/clap`, which
 the sync's default CLAP path (`~/.clap`, `/usr/lib/clap`) leaves out; `clap_extra` adds it, as on the machine that
-measured the set. The CLAP records are found by their `.clap` path, so without it those plugins are neither measured
-nor taken from the records.
+measures the set.
 
 ## Rebuild from a device run
 
@@ -88,7 +116,7 @@ tools/build-package.sh --from <qualification dir> --provenance provenance.json \
 git diff --stat
 ```
 
-`plugin-qualify-records-package` (plugin-qualify 0.17.0) judges which records go in, builds the package, and the
+`plugin-qualify-records-package` judges which records go in, builds the package, and the
 script replaces `records/`, `debian/control`, `debian/install` and the top `debian/changelog` entry with what it
 holds. `provenance.json` is a JSON file of what the tool cannot know: the image, the board, the package versions
 and the source revisions of the device; the tool adds the schema, the set, the host class, the package and the
@@ -97,7 +125,7 @@ date. Commit, then tag `v<version>`: the tag must equal the `debian/changelog` v
 `tools/build-package.sh` without arguments builds the package of `records/` with the tool, to compare with what
 `debian/` builds.
 
-The Fedora set is measured in a pod, not on a desk: `tools/fedora44/job.yaml` is a Job in the cluster's
+The x86-64 set is measured in a pod, not on a desk: `tools/fedora44/job.yaml` is a Job in the cluster's
 `omx-worker` namespace, and `tools/fedora44/measure.sh` installs the channel's plugin-qualify, plugin-hostd and
 omx-clap-host with the worker image's plugin set (platform `baked-versions.yml`) in `fedora:44`, starts a JACK
 server of the pod's own (dummy driver, 48000/512) and runs `plugin-qualify-sync --system`. Copy `/out` out of the pod
@@ -108,7 +136,8 @@ tools/build-package.sh --from <qualification dir> --provenance provenance.json \
     --version <YYYYMMDDXX> --host-class x86-64 --set fedora44
 ```
 
-For the set the RPM spec builds, the script replaces only `records/x86-64/fedora44/` and the spec's `Version`.
+For the set the RPM spec builds, the script replaces only `records/x86-64/fedora44/` and the spec's `Version`. The
+release builds the RPM only while that set is in the tree.
 
 `tools/check-records.py` reads every set as plugin-qualify-sync will: the provenance names its set and class, every
 record has its probe output beside it with the size and SHA-256 it names, and nothing else is shipped. The `check`
@@ -148,7 +177,7 @@ installs it in Debian trixie on arm64 with plugin-qualify from the channel and D
 (its bytes are the set's), asserts that `plugin-qualify-sync --system` takes plugins from the records
 (`distributed: ... applied`), signs the apt index and publishes into the channel.
 
-The same tag builds the RPM from `packaging/omx-qualification-records.spec` through FreeMixer/.github's
+While the x86-64 set is in the tree, the same tag builds the RPM from `packaging/plugin-db-qualification.spec` through FreeMixer/.github's
 `build-rpm.yml` (one noarch build, signed and published into the channel's `rpm/` tree, attached to the same
 GitHub release), then installs it in Fedora 44 with plugin-qualify and the omx-plugins version the set measured from
 the channel, and asserts that `plugin-qualify-sync --system` takes them from the records. The spec's `Version` and
@@ -161,11 +190,7 @@ A records package is versioned by the date its records are published: `YYYYMMDDX
 followed by the day's serial, `01` for the first release of the day. A number is never used twice, even for a
 release that did not publish: the next one takes the next serial. No dots or other separators: `2026103001`.
 The tag is `v` and the version (`v2026103001`). These numbers sort in time order for both dpkg and rpm, so a
-device always upgrades to the newer set; the first release, `2026.10.29`, sorts below all of them.
-
-A tagged commit with `debian/republish` does not build: it repacks a package the channel holds under the new
-version, every installed file unchanged (see `.github/workflows/release.yml`). `2026103003` is the `2026.10.29`
-package under the new scheme, so its files, `provenance.json` included, still name `2026.10.29`.
+machine always upgrades to the newer set.
 
 ## Provenance of the Zynthian set
 
@@ -177,36 +202,6 @@ package under the new scheme, so its files, `provenance.json` included, still na
 | zynthian-ui | `7ed5bcd61939422e1394f5d8b730e8532611c453` |
 | zynthian-sys | `aa36238dcb36fc004eaa4e027184adc8e67e8e8b` |
 | Packages | plugin-qualify 0.16.1, plugin-hostd 0.13.1, omx-clap-host 0.23.2, omx-plugins 0.15.1, omx-contract-data 3.4.0, omx-panel 0.6.0, distrho-plugin-ports-lv2 5:20210315 (the full list is in `provenance.json`) |
-
-## Provenance of the Fedora set
-
-| | |
-| --- | --- |
-| Image | `fedora:44` container (Fedora Linux 44, x86_64) with the worker image's plugin set, platform `baked-versions.yml` at `f8ad21305adea756dd0d9adf6693c69178b16a51` |
-| Machine | AMD Ryzen 7 PRO 8700GE (8 cores, 16 threads), cluster node h2, a pod limited to 3 CPUs |
-| Measured | 2026-11-01, host profile `omx-clap-host`, grid 48000/512 (the Zynthian set's cell) |
-| Real time | none: the namespace's pod security (baseline) grants no `CAP_SYS_NICE` and `RLIMIT_RTPRIO` is 0, so the probe and the isolated step ran under `SCHED_OTHER`; every probe output says so (`run.realtime.class: none`) |
-| Packages | plugin-qualify 0.18.5, plugin-hostd 0.15.8, omx-clap-host 0.26.2, omx-plugins 0.16.0, mod-host-protocol 0.10.6.f14a230-11.3.omx, jack-audio-connection-kit 1.9.22, lsp-plugins-clap 1.2.29, and 141 more plugin packages from the audinux COPR and Fedora (the full list is in `provenance.json`) |
-
-The run measured 642 plugins (420 CLAP, 222 LV2): 628 qualified, 14 refused, 4 crashed, 1 unmeasured, in 1070
-records. The package holds 666 of those records.
-
-Left out, besides the unmeasured one: the 9 plugins the isolated step refused with `isolated.silent-output`
-(Aeolus, Cardinal, MPaint, RetroTrax, NodalRed2x, OsTIrus, Spiro, Stochas, LSP's A/B tester). The isolated step
-plays 3 seconds through plugin-hostd on a JACK server; here that server had no real-time priority and ran on a shared
-node, and 187 of the step's 223 runs saw xruns. A refused record applies on a device and keeps the plugin off it, so a
-refusal measured that way is not shipped: the device measures the plugin itself. The sync matches a CLAP binary as a
-whole, so the whole binary of each is left out, which for `lsp-plugins.clap` is all 194 of its plugins (388 records):
-a device measures the LSP CLAP bundle itself. `provenance.json` lists them under `leftOut`.
-
-Kept: `isolated.non-finite-output` for ZamEQ2, and `isolated.not-added` for Cardinal's and Ildaeil's LV2 variants
-and some offers of other CLAP plugins (Surge XT among them), where plugin-hostd answered `-509` to the pin: its own
-refusal, not a figure the missing real-time priority could change. A machine that measures a plugin itself
-overwrites the record.
-
-Records measured under an emulated CPU are never accepted into this repository: a figure from an emulator is not
-the machine class's. `provenance.json` names the board the records were measured on, and a record set without a
-real board named there is refused at review.
 
 ## License
 

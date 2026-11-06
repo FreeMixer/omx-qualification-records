@@ -67,7 +67,7 @@ class ComparisonRecords(unittest.TestCase):
         os.makedirs(self.set)
         probe = b"{}"
         self.write("provenance.json", {"schema": check.PROVENANCE_SCHEMA, "set": "t", "hostClass": "x86-64",
-                                       "package": {"name": "omx-qualification-x86-64-t"}, "hostProfile": "omx-clap-host"})
+                                       "package": {"name": "plugin-db-qualification-x86-64-t"}, "hostProfile": "omx-clap-host"})
         with open(os.path.join(self.set, "a.probe.json"), "wb") as f:
             f.write(probe)
         self.write("a.default.qualification.json", {

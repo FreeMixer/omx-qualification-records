@@ -23,10 +23,11 @@ jobs:
       - name: The spec names a set this tree holds
         run: |
           set -euo pipefail
-          spec=packaging/omx-qualification-records.spec
+          spec=packaging/plugin-db-qualification.spec
           class=$(sed -n 's/^%global host_class //p' "$spec")
           set_=$(sed -n 's/^%global set_name //p' "$spec")
-          test -f "records/$class/$set_/provenance.json"
+          # a set that is not current is dropped and the spec then builds nothing (release.yml skips the RPM)
+          test -f "records/$class/$set_/provenance.json" || echo "records/$class/$set_ is not in the tree: no RPM this release"
           # one version for both formats: the tag must equal both
           deb=$(sed -n '1s/^[^(]*(\([^)]*\)).*/\1/p' debian/changelog)
           rpm=$(sed -n 's/^Version: *//p' "$spec")
