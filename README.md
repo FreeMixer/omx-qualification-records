@@ -18,7 +18,7 @@ until it is measured again.
 
 | host class | machine | arch | distribution | package | records | plugin-qualify |
 | --- | --- | --- | --- | --- | --- | --- |
-| `rpi5` | Raspberry Pi 5 (ZynthianOS Vangelis) | arm64 | Debian trixie | `plugin-db-qualification-rpi5-zynthian-vangelis` (deb) | 1886 | 0.16.1: replaced by a 0.19.0 run before the next release |
+| `rpi5` | Raspberry Pi 5 (ZynthianOS Vangelis) | arm64 | Debian trixie and bookworm | `plugin-db-qualification-rpi5-zynthian-vangelis` (deb) | 1886 | 0.16.1: replaced by a 0.19.0 run before the next release |
 | `x86-64` | the OpenMixer worker image, and a desk | x86_64 | Fedora 44 | `plugin-db-qualification-x86-64-fedora44` (rpm) | none | not current: the 0.18.5 set was dropped |
 
 There is no Debian x86-64 class and no Fedora rpi5 class, so there is no `.deb` for x86-64 and no `.rpm` for rpi5.

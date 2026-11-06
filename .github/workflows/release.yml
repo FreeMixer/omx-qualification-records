@@ -74,14 +74,15 @@ jobs:
       package-name: plugin-db-qualification
       binary-names: plugin-db-qualification-rpi5-zynthian-vangelis
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
-      # the records are data for plugin-qualify on a Raspberry Pi 5 running Debian trixie (Zynthian's base):
+      # the records are data for plugin-qualify on a Raspberry Pi 5 running Debian (Zynthian's base, trixie, and the
+      # bookworm images before it):
       # no build dependency beyond debhelper, and one package for all architectures
       dependencies: ''
       requires: ''
       channel-deps: false
       # the changelog is regenerated from git by a python3 script
       build-packages: python3
-      suite-matrix: '["trixie"]'
+      suite-matrix: '["bookworm", "trixie"]'
       arch-matrix: '["amd64"]'
     secrets: inherit
 
