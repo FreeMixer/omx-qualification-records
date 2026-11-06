@@ -32,3 +32,7 @@ jobs:
           deb=$(sed -n '1s/^[^(]*(\([^)]*\)).*/\1/p' debian/changelog)
           rpm=$(sed -n 's/^Version: *//p' "$spec")
           [ "$deb" = "$rpm" ] || { echo "::error::debian/changelog is $deb but the spec is $rpm; a tag must equal both"; exit 1; }
+
+  # the commit messages, private references and layout every FreeMixer repository is held to
+  public-sources:
+    uses: FreeMixer/.github/.github/workflows/public-sources-check.yml@v1
