@@ -29,7 +29,7 @@
   "set": "zynthian-vangelis",
   "hostClass": "rpi5",
   "package": {
-    "name": "omx-qualification-rpi5-zynthian-vangelis",
+    "name": "plugin-db-qualification-rpi5-zynthian-vangelis",
     "version": "2026.10.29"
   },
   "date": "2026-10-28"

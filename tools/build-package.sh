@@ -14,7 +14,7 @@
 #       records go in (a record with its probe copy intact; never an unmeasured one), builds the package, and the
 #       records, provenance.json and debian/ (control, install, changelog entry) of this tree are replaced by what
 #       the package holds. Review the diff, commit, tag v<version>. For the set the RPM spec builds
-#       (packaging/omx-qualification-records.spec names its host class and set), only that set's records and the
+#       (packaging/plugin-db-qualification.spec names its host class and set), only that set's records and the
 #       spec's Version change; the tool's .deb is used for its judgement of which records go in and is discarded.
 #
 # plugin-qualify comes from the OpenMixer channel (apt) or, where that is not configured, from npm.
@@ -72,12 +72,12 @@ fi
 rm -rf "${root:?}/records/$class/$set_"
 mkdir -p "$root/records/$class"
 cp -r "$tmp/$rel" "$root/records/$class/$set_"
-# a set the RPM spec builds (packaging/omx-qualification-records.spec): the records are the tool's, the package is
+# a set the RPM spec builds (packaging/plugin-db-qualification.spec): the records are the tool's, the package is
 # the spec's; debian/ is the Debian set's and stays as it is
-spec=$root/packaging/omx-qualification-records.spec
+spec=$root/packaging/plugin-db-qualification.spec
 if grep -qx "%global host_class $class" "$spec" && grep -qx "%global set_name $set_" "$spec"; then
     sed -i "s/^Version: .*/Version: $version/" "$spec"
-    echo "omx-qualification-$class-$set_ $version (RPM): $(ls "$root/records/$class/$set_" | wc -l) files; review git diff"
+    echo "plugin-db-qualification-$class-$set_ $version (RPM): $(ls "$root/records/$class/$set_" | wc -l) files; review git diff"
     exit 0
 fi
 # the package's own control is the source of debian/control: its Depends and Description follow the tool

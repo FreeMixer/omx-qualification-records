@@ -8,7 +8,7 @@
 Without arguments every set under records/ is checked. A set passes when:
 
 - its provenance.json is plugin-qualify.distributed-provenance/1, names the set and host class of its directory,
-  and the package omx-qualification-<host class>-<set>;
+  and the package plugin-db-qualification-<host class>-<set>;
 - every *.qualification.json is a plugin-qualify.qualification-record/1 with its binary's files and its probe output
   beside it, whose size and SHA-256 are the ones the record names (a record with no verdict for the provenance's
   hostProfile is counted and named, not refused: the sync only skips it under that host);
@@ -142,7 +142,7 @@ def check_set(path):
         bad("provenance.json", f"schema is {prov.get('schema')!r}, not {PROVENANCE_SCHEMA}")
     if prov.get("set") != set_name or prov.get("hostClass") != host_class:
         bad("provenance.json", f"names set {prov.get('set')!r} and host class {prov.get('hostClass')!r}, not its directory's")
-    want = f"omx-qualification-{host_class}-{set_name}"
+    want = f"plugin-db-qualification-{host_class}-{set_name}"
     if (prov.get("package") or {}).get("name") != want:
         bad("provenance.json", f"names the package {(prov.get('package') or {}).get('name')!r}, not {want}")
     host = prov.get("hostProfile")
