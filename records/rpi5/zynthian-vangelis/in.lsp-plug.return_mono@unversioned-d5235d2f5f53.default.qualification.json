@@ -22,20 +22,29 @@
     {
       "host": "openmixer-console",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "unknown",
       "qualified": false,
       "hosting": "isolated",
       "arm": "declaration",
-      "deciding": "hosting.rt-safety.violations-in-run",
+      "deciding": "hosting.memory.unmeasured",
       "reasons": [
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 7,
+            "allocations": 10,
             "syscalls": 0,
-            "locks": 0
+            "locks": 1
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "unknown",
+          "code": "hosting.memory.unmeasured",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
           }
         }
       ]
@@ -46,11 +55,11 @@
       "host": "openmixer-console",
       "measured": true,
       "qualified": false,
-      "rating": "unsuitable",
-      "deciding": "hosting.rt-safety.violations-in-run"
+      "rating": "unknown",
+      "deciding": "hosting.memory.unmeasured"
     },
     "offeredOn": [],
-    "dimmed": "openmixer-console: hosting.rt-safety.violations-in-run"
+    "dimmed": "openmixer-console: hosting.memory.unmeasured"
   },
   "cost": [
     {
@@ -74,17 +83,17 @@
     "grid": [
       {
         "rate": 48000,
-        "quantum": 512,
+        "quantum": 256,
         "outcome": "probe.ok",
         "latency": {
           "declaredFrames": 0,
           "measuredFrames": 0
         },
         "cost": {
-          "median": 3.03711,
+          "median": 2.75,
           "percentile": {
             "p": 95,
-            "value": 3.11133
+            "value": 2.89453
           },
           "blocks": 512,
           "warmupBlocks": 64
@@ -93,24 +102,62 @@
           "interposer": true,
           "swept": true,
           "sweepApplicable": true,
-          "blocks": 512,
-          "allocations": 7,
-          "locks": 0,
+          "blocks": 1024,
+          "allocations": 10,
+          "locks": 1,
           "syscalls": 0,
           "threadViolations": 0,
           "processErrors": 0,
           "events": [
             "free",
             "free",
+            "free",
+            "realloc",
             "malloc",
             "malloc",
             "malloc",
+            "free",
             "malloc",
-            "malloc"
+            "malloc",
+            "pthread_mutex_lock"
           ]
         },
         "noteSweep": {
           "applicable": false
+        },
+        "memory": {
+          "afterInstantiateKb": 16032,
+          "afterActivateKb": 16160,
+          "atRestKb": 16560,
+          "secondInstanceKb": 272,
+          "firstInstanceKb": 16560,
+          "perInstanceKb": 272
+        }
+      },
+      {
+        "rate": 96000,
+        "quantum": 256,
+        "outcome": "probe.ok",
+        "latency": {
+          "declaredFrames": 0,
+          "measuredFrames": 0
+        },
+        "cost": {
+          "median": 2.75,
+          "percentile": {
+            "p": 95,
+            "value": 2.89453
+          },
+          "blocks": 512,
+          "warmupBlocks": 64
+        },
+        "memory": {
+          "afterInstantiateKb": 16032,
+          "afterActivateKb": 16176,
+          "atRestKb": 16624,
+          "secondInstanceKb": 368,
+          "firstInstanceKb": 16624,
+          "perInstanceKb": 368
         }
       }
     ]
@@ -122,15 +169,15 @@
     }
   ],
   "tool": {
-    "runner": "plugin-hostd-probe 0.13.1",
+    "runner": "plugin-hostd-probe 0.18.0",
     "child": "clap-qualify",
     "interposer": "rt_interpose.so"
   },
-  "measuredAt": "2026-10-28T20:59:45+00:00",
+  "measuredAt": "2026-11-05T23:51:09+00:00",
   "probe": {
     "file": "in.lsp-plug.return_mono@unversioned-d5235d2f5f53.default.probe.json",
-    "sha256": "928722a717d95a5a883164e860c0e3cd1cee9483d37c483d3469fdf1734a2de9",
-    "bytes": 3868,
+    "sha256": "c0a56ecba457bc135ecc978f09190873862b8bbfda78c538c2a02bef525d5fb8",
+    "bytes": 5170,
     "protocol": {
       "name": "plugin-hostd.probe-protocol",
       "version": 1
@@ -146,6 +193,44 @@
       "preemptRt": false,
       "cstatesLimited": false
     },
-    "meetsProtocol": false
+    "meetsProtocol": false,
+    "load": {
+      "loadavg1": 1.05,
+      "cores": 4
+    }
+  },
+  "run": {
+    "id": "20261105T235109Z-2e2de7-6895432d",
+    "steps": [
+      {
+        "step": "scan",
+        "result": "ok"
+      },
+      {
+        "step": "describe",
+        "result": "ok"
+      },
+      {
+        "step": "probe",
+        "result": "probe.ok"
+      },
+      {
+        "step": "rt-safety",
+        "result": "safe"
+      }
+    ]
+  },
+  "rejudged": {
+    "at": "2026-11-06T16:34:37.320Z",
+    "by": "plugin-qualify 0.19.1",
+    "figures": {
+      "tool": {
+        "runner": "plugin-hostd-probe 0.18.0",
+        "child": "clap-qualify",
+        "interposer": "rt_interpose.so"
+      },
+      "measuredAt": "2026-11-05T23:51:09+00:00",
+      "runId": "20261105T235109Z-2e2de7-6895432d"
+    }
   }
 }

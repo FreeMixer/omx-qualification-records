@@ -31,30 +31,41 @@
     {
       "host": "omx-clap-host",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "unknown",
       "qualified": false,
       "hosting": "isolated",
-      "arm": "declaration",
-      "deciding": "hosting.rt-safety.violations-in-run",
+      "arm": "run",
+      "deciding": "omx-clap-host.silent-under-note",
       "reasons": [
         {
-          "dimension": "rtSafety",
-          "rating": "unsuitable",
-          "code": "hosting.rt-safety.violations-in-run",
+          "dimension": "hostAdmission",
+          "rating": "unknown",
+          "code": "omx-clap-host.silent-under-note",
           "params": {
-            "allocations": 1688878,
-            "syscalls": 122582,
-            "locks": 402919
+            "peak": 0,
+            "notes": 30,
+            "rate": 48000,
+            "quantum": 128
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 3370384,
+            "syscalls": 179014,
+            "locks": 742798
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 14730,
-            "syscalls": 298,
-            "locks": 15424
+            "allocations": 13928,
+            "syscalls": 110,
+            "locks": 14068
           }
         }
       ]
@@ -62,91 +73,210 @@
     {
       "host": "openmixer-console",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "unknown",
       "qualified": false,
       "hosting": "isolated",
       "arm": "declaration",
-      "deciding": "hosting.rt-safety.violations-in-run",
+      "deciding": "hosting.memory.unmeasured",
       "reasons": [
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 1688878,
-            "syscalls": 122582,
-            "locks": 402919
+            "allocations": 3370384,
+            "syscalls": 179014,
+            "locks": 742798
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 14730,
-            "syscalls": 298,
-            "locks": 15424
+            "allocations": 13928,
+            "syscalls": 110,
+            "locks": 14068
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "unknown",
+          "code": "hosting.memory.unmeasured",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
           }
         }
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "unknown",
       "qualified": false,
       "hosting": "isolated",
       "arm": "run",
-      "deciding": "mod-host.no-answer",
+      "deciding": "omx-clap-host.silent-under-note",
       "reasons": [
         {
           "dimension": "hostAdmission",
-          "rating": "unsuitable",
-          "code": "mod-host.no-answer",
+          "rating": "unknown",
+          "code": "omx-clap-host.silent-under-note",
           "params": {
-            "step": "activate"
+            "peak": 0,
+            "notes": 30,
+            "rate": 48000,
+            "quantum": 128
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 1688878,
-            "syscalls": 122582,
-            "locks": 402919
+            "allocations": 3370384,
+            "syscalls": 179014,
+            "locks": 742798
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 14730,
-            "syscalls": 298,
-            "locks": 15424
+            "allocations": 13928,
+            "syscalls": 110,
+            "locks": 14068
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "conditional",
+          "code": "hosting.memory.within-provisional-ceiling",
+          "params": {
+            "perInstanceKb": 22528,
+            "firstInstanceKb": 38704,
+            "ceilingKb": 393216,
+            "consoleCeilingKb": 3145728,
+            "provisional": "yes"
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
+      "measured": true,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "run",
+      "deciding": "omx-clap-host.silent-under-note",
+      "reasons": [
+        {
+          "dimension": "hostAdmission",
+          "rating": "unknown",
+          "code": "omx-clap-host.silent-under-note",
+          "params": {
+            "peak": 0,
+            "notes": 30,
+            "rate": 48000,
+            "quantum": 128
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "conditional",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 3370384,
+            "syscalls": 179014,
+            "locks": 742798
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "conditional",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 13928,
+            "syscalls": 110,
+            "locks": 14068
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "conditional",
+          "code": "hosting.memory.within-provisional-ceiling",
+          "params": {
+            "perInstanceKb": 22528,
+            "firstInstanceKb": 38704,
+            "ceilingKb": 917504,
+            "consoleCeilingKb": 7340032,
+            "provisional": "yes"
           }
         }
       ]
     }
   ],
+  "adapter": {
+    "host": "omx-clap-host",
+    "measured": true,
+    "admitted": false,
+    "code": "omx-clap-host.silent-under-note",
+    "params": {
+      "peak": 0,
+      "notes": 30,
+      "rate": 48000,
+      "quantum": 128
+    },
+    "versions": {
+      "omx-clap-host": "0.30.0",
+      "plugin-hostd": "0.19.0"
+    },
+    "measuredAt": "2026-11-06T16:15:28.190Z",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "measured": true,
+        "admitted": false,
+        "code": "omx-clap-host.silent-under-note",
+        "params": {
+          "peak": 0,
+          "notes": 30
+        }
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "measured": true,
+        "admitted": false,
+        "code": "omx-clap-host.silent-under-note",
+        "params": {
+          "peak": 0,
+          "notes": 30
+        }
+      }
+    ]
+  },
   "tiers": {
     "inProcess": {
       "host": "openmixer-console",
       "measured": true,
       "qualified": false,
-      "rating": "unsuitable",
-      "deciding": "hosting.rt-safety.violations-in-run"
+      "rating": "unknown",
+      "deciding": "hosting.memory.unmeasured"
     },
     "isolated": {
-      "host": "mod-host",
+      "host": "omx-clap-host",
       "measured": true,
       "qualified": false,
-      "rating": "unsuitable",
-      "deciding": "mod-host.no-answer"
+      "rating": "unknown",
+      "deciding": "omx-clap-host.silent-under-note"
     },
     "offeredOn": [],
-    "dimmed": "openmixer-console: hosting.rt-safety.violations-in-run; mod-host: mod-host.no-answer"
+    "dimmed": "openmixer-console: hosting.memory.unmeasured; omx-clap-host: omx-clap-host.silent-under-note"
   },
   "cost": [
     {
@@ -182,7 +312,23 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "rate": 48000,
       "quantum": 128,
       "reasons": [
@@ -202,17 +348,84 @@
     "grid": [
       {
         "rate": 48000,
-        "quantum": 512,
+        "quantum": 256,
         "outcome": "probe.ok",
+        "latency": {
+          "declaredFrames": 256,
+          "unmeasuredReason": "silent-output",
+          "code": "hosting.latency.unmeasured"
+        },
+        "cost": {
+          "median": 3901.91,
+          "percentile": {
+            "p": 95,
+            "value": 8436.21
+          },
+          "blocks": 512,
+          "warmupBlocks": 64
+        },
         "rtSafety": {
           "interposer": true,
           "swept": true,
           "sweepApplicable": true,
           "blocks": 512,
-          "allocations": 1688878,
-          "locks": 402919,
-          "syscalls": 122582,
+          "allocations": 1684125,
+          "locks": 370686,
+          "syscalls": 88933,
           "events": [
+            "mutex_lock libVavra.so _ZN4juce6detail32dispatchNextMessageOnSystemQueueEb",
+            "nanosleep libVavra.so _ZN4juce6Thread5sleepEi",
+            "mutex_lock libVavra.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "realloc libVavra.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "write libVavra.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
+            "mutex_lock libVavra.so _ZN4juce23AudioProcessorParameter34sendValueChangedMessageToListenersEf"
+          ]
+        },
+        "noteSweep": {
+          "applicable": true,
+          "dialect": "midi",
+          "allocations": 13928,
+          "locks": 14068,
+          "syscalls": 110
+        },
+        "memory": {
+          "afterInstantiateKb": 38688,
+          "afterActivateKb": 38688,
+          "atRestKb": 38688,
+          "secondInstanceKb": 22528,
+          "firstInstanceKb": 38688,
+          "perInstanceKb": 22528
+        }
+      },
+      {
+        "rate": 96000,
+        "quantum": 256,
+        "outcome": "probe.ok",
+        "latency": {
+          "declaredFrames": 256,
+          "unmeasuredReason": "silent-output",
+          "code": "hosting.latency.unmeasured"
+        },
+        "cost": {
+          "median": 3856.3,
+          "percentile": {
+            "p": 95,
+            "value": 8563.79
+          },
+          "blocks": 512,
+          "warmupBlocks": 64
+        },
+        "rtSafety": {
+          "interposer": true,
+          "swept": true,
+          "sweepApplicable": true,
+          "blocks": 512,
+          "allocations": 1686259,
+          "locks": 372112,
+          "syscalls": 90081,
+          "events": [
+            "mutex_lock libVavra.so _ZN4juce6detail32dispatchNextMessageOnSystemQueueEb",
+            "nanosleep libVavra.so _ZN4juce6Thread5sleepEi",
             "mutex_lock libVavra.so ?",
             "mutex_lock libVavra.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
             "realloc libVavra.so _ZN4juce14MessageManager24postMessageToSystemQueueEPNS0_11MessageBaseE",
@@ -223,9 +436,34 @@
         "noteSweep": {
           "applicable": true,
           "dialect": "midi",
-          "allocations": 14730,
-          "locks": 15424,
-          "syscalls": 298
+          "allocations": 13978,
+          "locks": 14134,
+          "syscalls": 116
+        },
+        "memory": {
+          "afterInstantiateKb": 38752,
+          "afterActivateKb": 38752,
+          "atRestKb": 38752,
+          "secondInstanceKb": 22560,
+          "firstInstanceKb": 38752,
+          "perInstanceKb": 22560
+        }
+      },
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok",
+        "latency": {
+          "unmeasuredReason": "not-attempted",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "afterInstantiateKb": 38704,
+          "afterActivateKb": 38704,
+          "atRestKb": 38704,
+          "secondInstanceKb": 22528,
+          "firstInstanceKb": 38704,
+          "perInstanceKb": 22528
         }
       }
     ],
@@ -247,24 +485,44 @@
           "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"
         ]
       }
-    }
+    },
+    "unmeasured": [
+      {
+        "dimension": "latency",
+        "rate": 48000,
+        "quantum": 256,
+        "code": "hosting.latency.unmeasured",
+        "detail": "silent-output: the impulse never came out within the declared latency and the tail"
+      },
+      {
+        "dimension": "latency",
+        "rate": 96000,
+        "quantum": 256,
+        "code": "hosting.latency.unmeasured",
+        "detail": "silent-output: the impulse never came out within the declared latency and the tail"
+      }
+    ]
   },
   "notMeasured": [
     {
       "dimension": "stability",
       "code": "hosting.stability.unsoaked"
+    },
+    {
+      "dimension": "memoryGrowth",
+      "code": "hosting.stability.unsoaked"
     }
   ],
   "tool": {
-    "runner": "plugin-hostd-probe 0.12.0",
+    "runner": "plugin-hostd-probe 0.18.0",
     "child": "lv2_measure",
     "interposer": "rt_interpose.so"
   },
-  "measuredAt": "2026-10-27T00:55:43+00:00",
+  "measuredAt": "2026-11-06T01:48:40+00:00",
   "probe": {
     "file": "http___theusualsuspects.lv2_Vavra@1.1-b1bd6834044a.default.probe.json",
-    "sha256": "02dbb5f723a0a50e0b093be3fd50869b65059bc274762d29efcb23b2fa2c6367",
-    "bytes": 3971,
+    "sha256": "267e044800d187397841a07ed2a715d5b5de100d708d9f1c08e5e7358263fe25",
+    "bytes": 9919,
     "protocol": {
       "name": "plugin-hostd.probe-protocol",
       "version": 1
@@ -280,6 +538,88 @@
       "preemptRt": false,
       "cstatesLimited": false
     },
-    "meetsProtocol": false
+    "meetsProtocol": false,
+    "load": {
+      "loadavg1": 1.17,
+      "cores": 4
+    }
+  },
+  "run": {
+    "id": "20261106T014840Z-2f3f98-ecf91192",
+    "steps": [
+      {
+        "step": "scan",
+        "result": "ok"
+      },
+      {
+        "step": "describe",
+        "result": "ok"
+      },
+      {
+        "step": "probe",
+        "result": "probe.ok"
+      },
+      {
+        "step": "rt-safety",
+        "result": "unsafe"
+      },
+      {
+        "step": "isolated",
+        "result": "isolated",
+        "figures": {
+          "latencyFrames": 128,
+          "cpuPercent": 7,
+          "xruns": 1,
+          "midiInputsLinked": 1
+        }
+      }
+    ]
+  },
+  "memoryRun": {
+    "tool": {
+      "runner": "plugin-hostd-probe 0.18.0",
+      "child": "lv2_measure"
+    },
+    "measuredAt": "2026-11-06T05:41:54+00:00",
+    "runId": "20261106T054154Z-320303-78ac6339",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok"
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.ok"
+      }
+    ]
+  },
+  "rejudged": {
+    "at": "2026-11-06T16:34:37.320Z",
+    "by": "plugin-qualify 0.19.1",
+    "figures": {
+      "tool": {
+        "runner": "plugin-hostd-probe 0.18.0",
+        "child": "lv2_measure",
+        "interposer": "rt_interpose.so"
+      },
+      "measuredAt": "2026-11-06T01:48:40+00:00",
+      "runId": "20261106T014840Z-2f3f98-ecf91192",
+      "memory": {
+        "tool": {
+          "runner": "plugin-hostd-probe 0.18.0",
+          "child": "lv2_measure"
+        },
+        "measuredAt": "2026-11-06T05:41:54+00:00"
+      },
+      "adapter": {
+        "versions": {
+          "omx-clap-host": "0.30.0",
+          "plugin-hostd": "0.19.0"
+        },
+        "measuredAt": "2026-11-06T16:15:28.190Z"
+      }
+    }
   }
 }
