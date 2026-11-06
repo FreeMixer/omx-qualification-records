@@ -18,7 +18,7 @@ until it is measured again.
 
 | host class | machine | arch | distribution | package | records | plugin-qualify |
 | --- | --- | --- | --- | --- | --- | --- |
-| `rpi5` | Raspberry Pi 5 (ZynthianOS Vangelis) | arm64 | Debian trixie and bookworm | `plugin-db-qualification-rpi5-zynthian-vangelis` (deb) | 1886 | 0.16.1: replaced by a 0.19.0 run before the next release |
+| `rpi5` | Raspberry Pi 5 (ZynthianOS Vangelis) | arm64 | Debian trixie and bookworm | `plugin-db-qualification-rpi5-zynthian-vangelis` (deb) | 1863 | 0.19.0, with the adapter, isolated, pool and memory steps under 0.19.1 |
 | `x86-64` | the OpenMixer worker image, and a desk | x86_64 | Fedora 44 | `plugin-db-qualification-x86-64-fedora44` (rpm) | none | not current: the 0.18.5 set was dropped |
 
 There is no Debian x86-64 class and no Fedora rpi5 class, so there is no `.deb` for x86-64 and no `.rpm` for rpi5.
@@ -198,10 +198,10 @@ machine always upgrades to the newer set.
 | --- | --- |
 | Image | ZynthianOS Vangelis-2610.1, built 2026-10-15 from Raspberry Pi OS Trixie (aarch64) |
 | Board | Raspberry Pi 5 Model B Rev 1.0, a real board |
-| Measured | 2026-10-28, host profile `omx-clap-host` |
-| zynthian-ui | `7ed5bcd61939422e1394f5d8b730e8532611c453` |
-| zynthian-sys | `aa36238dcb36fc004eaa4e027184adc8e67e8e8b` |
-| Packages | plugin-qualify 0.16.1, plugin-hostd 0.13.1, omx-clap-host 0.23.2, omx-plugins 0.15.1, omx-contract-data 3.4.0, omx-panel 0.6.0, distrho-plugin-ports-lv2 5:20210315 (the full list is in `provenance.json`) |
+| Measured | host profile `omx-clap-host`, at 48000/256 and 96000/256; the adapter, isolated, pool and memory steps at 48000/128 and 48000/256 |
+| zynthian-ui | `76e325ea9ddfee20c84aa6a9d17782cb9b4c86b1` |
+| zynthian-sys | `31e8524328103ed0ab0ad61924431d477bdd448c` |
+| Packages | plugin-qualify 0.19.0, plugin-hostd 0.18.0, omx-clap-host 0.29.0, omx-plugins 0.18.0, omx-contract-data 3.9.1, omx-panel 0.10.1, distrho-plugin-ports-lv2 5:20210315; the steps under plugin-qualify 0.19.1, plugin-hostd 0.19.0, omx-clap-host 0.30.0 (the full list is in `provenance.json`) |
 
 ## License
 

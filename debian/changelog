@@ -1,5 +1,11 @@
-plugin-db-qualification (2026110601) unstable; urgency=medium
+plugin-db-qualification (2026110602) unstable; urgency=medium
 
+  * The rpi5 zynthian-vangelis set measured again by plugin-qualify 0.19:
+    1863 records, every LV2 plugin also run under omx-clap-host's LV2
+    adapter on a private JACK server (0 adapter runs owed), then the
+    isolated, pool and memory steps and a rejudge. Six bundles whose
+    directory name holds a space are not in the set: the sync cannot read
+    their files yet.
   * Renamed from omx-qualification-records: the repository and the packages
     are the qualification layer of plugin-db, plugin-db-qualification and
     plugin-db-qualification-<host class>-<set>. The install path stays
@@ -9,7 +15,7 @@ plugin-db-qualification (2026110601) unstable; urgency=medium
     again when it is measured with 0.19.
   * Depends on plugin-qualify >= 0.19.0 and < 0.20.
 
- -- Pau Aliagas <linuxnow@gmail.com>  Fri, 06 Nov 2026 12:00:00 +0100
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 06 Nov 2026 18:00:00 +0100
 
 omx-qualification-records (2026110101) unstable; urgency=medium
 

@@ -31,30 +31,30 @@
     {
       "host": "omx-clap-host",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "conditional",
       "qualified": false,
       "hosting": "isolated",
-      "arm": "declaration",
+      "arm": "run",
       "deciding": "hosting.rt-safety.violations-in-run",
       "reasons": [
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 1469,
-            "syscalls": 163,
-            "locks": 35119
+            "allocations": 2483,
+            "syscalls": 213,
+            "locks": 69894
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 22,
-            "syscalls": 755,
-            "locks": 2630
+            "allocations": 16,
+            "syscalls": 347,
+            "locks": 1755
           }
         }
       ]
@@ -62,92 +62,176 @@
     {
       "host": "openmixer-console",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "unknown",
       "qualified": false,
       "hosting": "isolated",
       "arm": "declaration",
-      "deciding": "hosting.rt-safety.violations-in-run",
+      "deciding": "hosting.memory.unmeasured",
       "reasons": [
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 1469,
-            "syscalls": 163,
-            "locks": 35119
+            "allocations": 2483,
+            "syscalls": 213,
+            "locks": 69894
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 22,
-            "syscalls": 755,
-            "locks": 2630
+            "allocations": 16,
+            "syscalls": 347,
+            "locks": 1755
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "unknown",
+          "code": "hosting.memory.unmeasured",
+          "params": {
+            "rate": 96000,
+            "quantum": 1024
           }
         }
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
       "measured": true,
-      "rating": "unsuitable",
+      "rating": "conditional",
       "qualified": false,
       "hosting": "isolated",
       "arm": "run",
-      "deciding": "mod-host.resp-101",
+      "deciding": "hosting.rt-safety.violations-in-run",
       "reasons": [
         {
-          "dimension": "hostAdmission",
-          "rating": "unsuitable",
-          "code": "mod-host.resp-101",
-          "params": {
-            "step": "add",
-            "resp": -101
-          }
-        },
-        {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-in-run",
           "params": {
-            "allocations": 1469,
-            "syscalls": 163,
-            "locks": 35119
+            "allocations": 2483,
+            "syscalls": 213,
+            "locks": 69894
           }
         },
         {
           "dimension": "rtSafety",
-          "rating": "unsuitable",
+          "rating": "conditional",
           "code": "hosting.rt-safety.violations-under-notes",
           "params": {
-            "allocations": 22,
-            "syscalls": 755,
-            "locks": 2630
+            "allocations": 16,
+            "syscalls": 347,
+            "locks": 1755
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "conditional",
+          "code": "hosting.memory.within-provisional-ceiling",
+          "params": {
+            "perInstanceKb": 5904,
+            "firstInstanceKb": 11616,
+            "ceilingKb": 393216,
+            "consoleCeilingKb": 3145728,
+            "provisional": "yes"
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
+      "measured": true,
+      "rating": "conditional",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "run",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "conditional",
+          "code": "hosting.rt-safety.violations-in-run",
+          "params": {
+            "allocations": 2483,
+            "syscalls": 213,
+            "locks": 69894
+          }
+        },
+        {
+          "dimension": "rtSafety",
+          "rating": "conditional",
+          "code": "hosting.rt-safety.violations-under-notes",
+          "params": {
+            "allocations": 16,
+            "syscalls": 347,
+            "locks": 1755
+          }
+        },
+        {
+          "dimension": "memory",
+          "rating": "conditional",
+          "code": "hosting.memory.within-provisional-ceiling",
+          "params": {
+            "perInstanceKb": 5904,
+            "firstInstanceKb": 11616,
+            "ceilingKb": 917504,
+            "consoleCeilingKb": 7340032,
+            "provisional": "yes"
           }
         }
       ]
     }
   ],
+  "adapter": {
+    "host": "omx-clap-host",
+    "measured": true,
+    "admitted": true,
+    "params": {},
+    "versions": {
+      "omx-clap-host": "0.30.0",
+      "plugin-hostd": "0.19.0"
+    },
+    "measuredAt": "2026-11-06T16:24:14.469Z",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "measured": true,
+        "admitted": true,
+        "params": {}
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "measured": true,
+        "admitted": true,
+        "params": {}
+      }
+    ]
+  },
   "tiers": {
     "inProcess": {
       "host": "openmixer-console",
       "measured": true,
       "qualified": false,
-      "rating": "unsuitable",
-      "deciding": "hosting.rt-safety.violations-in-run"
+      "rating": "unknown",
+      "deciding": "hosting.memory.unmeasured"
     },
     "isolated": {
-      "host": "mod-host",
+      "host": "omx-clap-host",
       "measured": true,
       "qualified": false,
-      "rating": "unsuitable",
-      "deciding": "mod-host.resp-101"
+      "rating": "conditional",
+      "deciding": "hosting.rt-safety.violations-in-run",
+      "runsAlone": true
     },
-    "offeredOn": [],
-    "dimmed": "openmixer-console: hosting.rt-safety.violations-in-run; mod-host: mod-host.resp-101"
+    "offeredOn": [
+      "isolated"
+    ]
   },
   "cost": [
     {
@@ -183,7 +267,23 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "rate": 48000,
       "quantum": 128,
       "reasons": [
@@ -203,16 +303,30 @@
     "grid": [
       {
         "rate": 48000,
-        "quantum": 512,
+        "quantum": 256,
         "outcome": "probe.ok",
+        "latency": {
+          "declaredFrames": 0,
+          "unmeasuredReason": "silent-output",
+          "code": "hosting.latency.unmeasured"
+        },
+        "cost": {
+          "median": 1420.79,
+          "percentile": {
+            "p": 95,
+            "value": 12179.2
+          },
+          "blocks": 512,
+          "warmupBlocks": 64
+        },
         "rtSafety": {
           "interposer": true,
           "swept": true,
           "sweepApplicable": true,
           "blocks": 512,
-          "allocations": 1469,
-          "locks": 35119,
-          "syscalls": 163,
+          "allocations": 1242,
+          "locks": 34947,
+          "syscalls": 107,
           "events": [
             "mutex_lock ? ?"
           ]
@@ -220,9 +334,80 @@
         "noteSweep": {
           "applicable": true,
           "dialect": "midi",
-          "allocations": 22,
-          "locks": 2630,
-          "syscalls": 755
+          "allocations": 16,
+          "locks": 1755,
+          "syscalls": 347
+        },
+        "memory": {
+          "afterInstantiateKb": 11616,
+          "afterActivateKb": 11616,
+          "atRestKb": 11616,
+          "secondInstanceKb": 5904,
+          "firstInstanceKb": 11616,
+          "perInstanceKb": 5904
+        }
+      },
+      {
+        "rate": 96000,
+        "quantum": 256,
+        "outcome": "probe.ok",
+        "latency": {
+          "declaredFrames": 0,
+          "unmeasuredReason": "silent-output",
+          "code": "hosting.latency.unmeasured"
+        },
+        "cost": {
+          "median": 1430.85,
+          "percentile": {
+            "p": 95,
+            "value": 12220
+          },
+          "blocks": 512,
+          "warmupBlocks": 64
+        },
+        "rtSafety": {
+          "interposer": true,
+          "swept": true,
+          "sweepApplicable": true,
+          "blocks": 512,
+          "allocations": 1241,
+          "locks": 34947,
+          "syscalls": 106,
+          "events": [
+            "mutex_lock ? ?"
+          ]
+        },
+        "noteSweep": {
+          "applicable": true,
+          "dialect": "midi",
+          "allocations": 16,
+          "locks": 1650,
+          "syscalls": 295
+        },
+        "memory": {
+          "afterInstantiateKb": 11616,
+          "afterActivateKb": 11616,
+          "atRestKb": 11616,
+          "secondInstanceKb": 5904,
+          "firstInstanceKb": 11616,
+          "perInstanceKb": 5904
+        }
+      },
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok",
+        "latency": {
+          "unmeasuredReason": "not-attempted",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "afterInstantiateKb": 11616,
+          "afterActivateKb": 11616,
+          "atRestKb": 11616,
+          "secondInstanceKb": 5904,
+          "firstInstanceKb": 11616,
+          "perInstanceKb": 5904
         }
       }
     ],
@@ -244,24 +429,44 @@
           "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"
         ]
       }
-    }
+    },
+    "unmeasured": [
+      {
+        "dimension": "latency",
+        "rate": 48000,
+        "quantum": 256,
+        "code": "hosting.latency.unmeasured",
+        "detail": "silent-output: the impulse never came out within the declared latency and the tail"
+      },
+      {
+        "dimension": "latency",
+        "rate": 96000,
+        "quantum": 256,
+        "code": "hosting.latency.unmeasured",
+        "detail": "silent-output: the impulse never came out within the declared latency and the tail"
+      }
+    ]
   },
   "notMeasured": [
     {
       "dimension": "stability",
       "code": "hosting.stability.unsoaked"
+    },
+    {
+      "dimension": "memoryGrowth",
+      "code": "hosting.stability.unsoaked"
     }
   ],
   "tool": {
-    "runner": "plugin-hostd-probe 0.12.0",
+    "runner": "plugin-hostd-probe 0.18.0",
     "child": "lv2_measure",
     "interposer": "rt_interpose.so"
   },
-  "measuredAt": "2026-10-27T14:25:35+00:00",
+  "measuredAt": "2026-11-06T03:25:28+00:00",
   "probe": {
     "file": "https___github.com_tiagolr_ripplerx@5.18-fdfd06a7e7f4.default.probe.json",
-    "sha256": "57c51eea7b7963d5026e9112760f871c9952828e839fb1a6246c59197b5498c9",
-    "bytes": 3577,
+    "sha256": "ada30882c24a6938f188c708395d869ac78c1e685d97fc0817a842e2c221d6c7",
+    "bytes": 8775,
     "protocol": {
       "name": "plugin-hostd.probe-protocol",
       "version": 1
@@ -277,6 +482,88 @@
       "preemptRt": false,
       "cstatesLimited": false
     },
-    "meetsProtocol": false
+    "meetsProtocol": false,
+    "load": {
+      "loadavg1": 0,
+      "cores": 4
+    }
+  },
+  "run": {
+    "id": "20261106T032528Z-2fb293-502a82c4",
+    "steps": [
+      {
+        "step": "scan",
+        "result": "ok"
+      },
+      {
+        "step": "describe",
+        "result": "ok"
+      },
+      {
+        "step": "probe",
+        "result": "probe.ok"
+      },
+      {
+        "step": "rt-safety",
+        "result": "unsafe"
+      },
+      {
+        "step": "isolated",
+        "result": "isolated",
+        "figures": {
+          "latencyFrames": 0,
+          "cpuPercent": 7,
+          "xruns": 2,
+          "midiInputsLinked": 1
+        }
+      }
+    ]
+  },
+  "memoryRun": {
+    "tool": {
+      "runner": "plugin-hostd-probe 0.18.0",
+      "child": "lv2_measure"
+    },
+    "measuredAt": "2026-11-06T05:45:14+00:00",
+    "runId": "20261106T054514Z-3210d8-896a8d01",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok"
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.ok"
+      }
+    ]
+  },
+  "rejudged": {
+    "at": "2026-11-06T16:34:37.320Z",
+    "by": "plugin-qualify 0.19.1",
+    "figures": {
+      "tool": {
+        "runner": "plugin-hostd-probe 0.18.0",
+        "child": "lv2_measure",
+        "interposer": "rt_interpose.so"
+      },
+      "measuredAt": "2026-11-06T03:25:28+00:00",
+      "runId": "20261106T032528Z-2fb293-502a82c4",
+      "memory": {
+        "tool": {
+          "runner": "plugin-hostd-probe 0.18.0",
+          "child": "lv2_measure"
+        },
+        "measuredAt": "2026-11-06T05:45:14+00:00"
+      },
+      "adapter": {
+        "versions": {
+          "omx-clap-host": "0.30.0",
+          "plugin-hostd": "0.19.0"
+        },
+        "measuredAt": "2026-11-06T16:24:14.469Z"
+      }
+    }
   }
 }

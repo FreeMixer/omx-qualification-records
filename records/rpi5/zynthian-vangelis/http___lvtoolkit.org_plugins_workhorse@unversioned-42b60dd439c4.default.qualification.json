@@ -62,7 +62,24 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "measured": false,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "probe.timeout",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unknown",
+          "code": "probe.timeout",
+          "params": {}
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "measured": false,
       "rating": "unknown",
       "qualified": false,
@@ -79,6 +96,15 @@
       ]
     }
   ],
+  "adapter": {
+    "host": "omx-clap-host",
+    "measured": false,
+    "admitted": false,
+    "code": "omx-clap-host.no-jack-client",
+    "params": {
+      "resp": -201
+    }
+  },
   "tiers": {
     "inProcess": {
       "host": "openmixer-console",
@@ -88,14 +114,14 @@
       "deciding": "probe.timeout"
     },
     "isolated": {
-      "host": "mod-host",
+      "host": "omx-clap-host",
       "measured": false,
       "qualified": false,
       "rating": "unknown",
       "deciding": "probe.timeout"
     },
     "offeredOn": [],
-    "dimmed": "openmixer-console: probe.timeout; mod-host: probe.timeout"
+    "dimmed": "openmixer-console: probe.timeout; omx-clap-host: probe.timeout"
   },
   "cost": [
     {
@@ -131,7 +157,23 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "rate": 48000,
       "quantum": 128,
       "reasons": [
@@ -148,23 +190,63 @@
     }
   ],
   "measurements": {
-    "grid": []
+    "grid": [
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.timeout",
+        "latency": {
+          "unmeasuredReason": "probe-timeout",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "unmeasuredReason": "probe-timeout",
+          "unmeasuredDetail": "the memory-only run ended probe.timeout"
+        }
+      },
+      {
+        "rate": 96000,
+        "quantum": 256,
+        "outcome": "probe.timeout",
+        "latency": {
+          "unmeasuredReason": "probe-timeout",
+          "code": "hosting.latency.unmeasured"
+        }
+      },
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok",
+        "latency": {
+          "unmeasuredReason": "not-attempted",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "unmeasuredReason": "probe-timeout",
+          "unmeasuredDetail": "the memory-only run ended probe.timeout"
+        }
+      }
+    ]
   },
   "notMeasured": [
     {
       "dimension": "stability",
       "code": "hosting.stability.unsoaked"
+    },
+    {
+      "dimension": "memoryGrowth",
+      "code": "hosting.stability.unsoaked"
     }
   ],
   "tool": {
-    "runner": "plugin-hostd-probe 0.12.0",
+    "runner": "plugin-hostd-probe 0.18.0",
     "child": "lv2_measure"
   },
-  "measuredAt": "2026-10-27T01:01:34+00:00",
+  "measuredAt": "2026-11-06T01:53:56+00:00",
   "probe": {
     "file": "http___lvtoolkit.org_plugins_workhorse@unversioned-42b60dd439c4.default.probe.json",
-    "sha256": "7516528b93b28547224fb1a32700d33285a04972d9ce5e88d12cb1085c0c2368",
-    "bytes": 2678,
+    "sha256": "b7ae1ac92f9128927907c1183134ffc028d42b57853eb30f15a4f8c09401bc25",
+    "bytes": 5157,
     "protocol": {
       "name": "plugin-hostd.probe-protocol",
       "version": 1
@@ -180,6 +262,78 @@
       "preemptRt": false,
       "cstatesLimited": false
     },
-    "meetsProtocol": false
+    "meetsProtocol": false,
+    "load": {
+      "loadavg1": 1.12,
+      "cores": 4
+    }
+  },
+  "run": {
+    "id": "20261106T015356Z-2f4951-015696fc",
+    "steps": [
+      {
+        "step": "scan",
+        "result": "ok"
+      },
+      {
+        "step": "describe",
+        "result": "ok"
+      },
+      {
+        "step": "probe",
+        "result": "probe.timeout"
+      },
+      {
+        "step": "isolated",
+        "result": "refused",
+        "code": "isolated.silent-output",
+        "detail": "notes held on 1 MIDI input and a sine at its audio inputs",
+        "figures": {
+          "latencyFrames": 0,
+          "cpuPercent": 0.3333333333333333,
+          "xruns": 0,
+          "midiInputsLinked": 1
+        }
+      }
+    ]
+  },
+  "memoryRun": {
+    "tool": {
+      "runner": "plugin-hostd-probe 0.18.0",
+      "child": "lv2_measure"
+    },
+    "measuredAt": "2026-11-06T05:42:10+00:00",
+    "runId": "20261106T054210Z-3203cd-34218772",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.timeout"
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.timeout"
+      }
+    ]
+  },
+  "rejudged": {
+    "at": "2026-11-06T16:34:37.320Z",
+    "by": "plugin-qualify 0.19.1",
+    "figures": {
+      "tool": {
+        "runner": "plugin-hostd-probe 0.18.0",
+        "child": "lv2_measure"
+      },
+      "measuredAt": "2026-11-06T01:53:56+00:00",
+      "runId": "20261106T015356Z-2f4951-015696fc",
+      "memory": {
+        "tool": {
+          "runner": "plugin-hostd-probe 0.18.0",
+          "child": "lv2_measure"
+        },
+        "measuredAt": "2026-11-06T05:42:10+00:00"
+      }
+    }
   }
 }

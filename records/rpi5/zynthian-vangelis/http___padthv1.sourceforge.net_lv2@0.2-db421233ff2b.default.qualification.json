@@ -67,7 +67,24 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "measured": false,
+      "rating": "unknown",
+      "qualified": false,
+      "hosting": "isolated",
+      "arm": "declaration",
+      "deciding": "probe.crashed",
+      "reasons": [
+        {
+          "dimension": "rtSafety",
+          "rating": "unknown",
+          "code": "probe.crashed",
+          "params": {}
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "measured": false,
       "rating": "unknown",
       "qualified": false,
@@ -84,6 +101,15 @@
       ]
     }
   ],
+  "adapter": {
+    "host": "omx-clap-host",
+    "measured": false,
+    "admitted": false,
+    "code": "omx-clap-host.no-jack-client",
+    "params": {
+      "resp": -201
+    }
+  },
   "tiers": {
     "inProcess": {
       "host": "openmixer-console",
@@ -93,14 +119,14 @@
       "deciding": "probe.crashed"
     },
     "isolated": {
-      "host": "mod-host",
+      "host": "omx-clap-host",
       "measured": false,
       "qualified": false,
       "rating": "unknown",
       "deciding": "probe.crashed"
     },
     "offeredOn": [],
-    "dimmed": "openmixer-console: probe.crashed; mod-host: probe.crashed"
+    "dimmed": "openmixer-console: probe.crashed; omx-clap-host: probe.crashed"
   },
   "cost": [
     {
@@ -136,7 +162,23 @@
       ]
     },
     {
-      "host": "mod-host",
+      "host": "openmixer-pi-4gb",
+      "rate": 48000,
+      "quantum": 128,
+      "reasons": [
+        {
+          "dimension": "cost",
+          "rating": "unknown",
+          "code": "hosting.cost.unmeasured-at-rate-and-quantum",
+          "params": {
+            "rate": 48000,
+            "quantum": 128
+          }
+        }
+      ]
+    },
+    {
+      "host": "openmixer-pi-8gb",
       "rate": 48000,
       "quantum": 128,
       "reasons": [
@@ -153,23 +195,71 @@
     }
   ],
   "measurements": {
-    "grid": []
+    "grid": [
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.crashed",
+        "latency": {
+          "unmeasuredReason": "probe-crashed",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "afterInstantiateKb": 22080,
+          "afterActivateKb": 22672,
+          "atRestKb": 22896,
+          "secondInstanceKb": 1120,
+          "firstInstanceKb": 22896,
+          "perInstanceKb": 1120
+        }
+      },
+      {
+        "rate": 96000,
+        "quantum": 256,
+        "outcome": "probe.crashed",
+        "latency": {
+          "unmeasuredReason": "probe-crashed",
+          "code": "hosting.latency.unmeasured"
+        }
+      },
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok",
+        "latency": {
+          "unmeasuredReason": "not-attempted",
+          "code": "hosting.latency.unmeasured"
+        },
+        "memory": {
+          "afterInstantiateKb": 21760,
+          "afterActivateKb": 22352,
+          "atRestKb": 22464,
+          "secondInstanceKb": 1216,
+          "firstInstanceKb": 22464,
+          "perInstanceKb": 1216
+        }
+      }
+    ]
   },
   "notMeasured": [
     {
       "dimension": "stability",
       "code": "hosting.stability.unsoaked"
+    },
+    {
+      "dimension": "memoryGrowth",
+      "code": "hosting.stability.unsoaked"
     }
   ],
   "tool": {
-    "runner": "plugin-hostd-probe 0.12.0",
+    "runner": "plugin-hostd-probe 0.18.0",
     "child": "lv2_measure"
   },
-  "measuredAt": "2026-10-27T00:39:43+00:00",
+  "measuredAt": "2026-11-06T01:35:39+00:00",
   "probe": {
     "file": "http___padthv1.sourceforge.net_lv2@0.2-db421233ff2b.default.probe.json",
-    "sha256": "0af6267fb2423a60a0a5e5b2c7dbb51dfc31f5f6a667e6635e25047c53cf9479",
-    "bytes": 2772,
+    "sha256": "c1bc5dcbed6968a5508b1f6e1c37c82c8e31decb2ae2608d2038ae228cfbc512",
+    "bytes": 5157,
     "protocol": {
       "name": "plugin-hostd.probe-protocol",
       "version": 1
@@ -185,6 +275,84 @@
       "preemptRt": false,
       "cstatesLimited": false
     },
-    "meetsProtocol": false
+    "meetsProtocol": false,
+    "ends": [
+      {
+        "step": "lifecycle",
+        "outcome": "probe.crashed",
+        "signal": "SIGSEGV"
+      },
+      {
+        "step": "lifecycle",
+        "outcome": "probe.crashed",
+        "signal": "SIGSEGV"
+      }
+    ],
+    "load": {
+      "loadavg1": 0.26,
+      "cores": 4
+    }
+  },
+  "run": {
+    "id": "20261106T013539Z-2f27d8-87e9b99b",
+    "steps": [
+      {
+        "step": "scan",
+        "result": "ok"
+      },
+      {
+        "step": "describe",
+        "result": "ok"
+      },
+      {
+        "step": "probe",
+        "result": "probe.crashed"
+      },
+      {
+        "step": "isolated",
+        "result": "refused",
+        "code": "isolated.not-added",
+        "detail": "add answered -102"
+      }
+    ]
+  },
+  "memoryRun": {
+    "tool": {
+      "runner": "plugin-hostd-probe 0.18.0",
+      "child": "lv2_measure"
+    },
+    "measuredAt": "2026-11-06T05:41:20+00:00",
+    "runId": "20261106T054120Z-3200cb-4352492c",
+    "cells": [
+      {
+        "rate": 48000,
+        "quantum": 128,
+        "outcome": "probe.ok"
+      },
+      {
+        "rate": 48000,
+        "quantum": 256,
+        "outcome": "probe.ok"
+      }
+    ]
+  },
+  "rejudged": {
+    "at": "2026-11-06T16:34:37.320Z",
+    "by": "plugin-qualify 0.19.1",
+    "figures": {
+      "tool": {
+        "runner": "plugin-hostd-probe 0.18.0",
+        "child": "lv2_measure"
+      },
+      "measuredAt": "2026-11-06T01:35:39+00:00",
+      "runId": "20261106T013539Z-2f27d8-87e9b99b",
+      "memory": {
+        "tool": {
+          "runner": "plugin-hostd-probe 0.18.0",
+          "child": "lv2_measure"
+        },
+        "measuredAt": "2026-11-06T05:41:20+00:00"
+      }
+    }
   }
 }
