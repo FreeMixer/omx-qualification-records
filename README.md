@@ -34,7 +34,7 @@ has with the same bytes.
 | class | where | command | time |
 | --- | --- | --- | --- |
 | `rpi5` | a Raspberry Pi 5 with the ZynthianOS image, plugin-qualify from the channel | `plugin-qualify-sync --system --force --no-distributed --grid 48000/256,96000/256`, then the copy below | about 6 hours per rate (2026-10-28: 6 h at 48 kHz) |
-| `x86-64` | the cluster, a Job on h2 (`tools/fedora44/job.yaml`, a fedora:44 pod) | `kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh && kubectl apply -f tools/fedora44/job.yaml` | hours; the Job stops at 14 h (`activeDeadlineSeconds`) |
+| `x86-64` | the cluster, a Job (`tools/fedora44/job.yaml`, a fedora:44 pod on an AMD Ryzen 7 PRO 8700GE node) | `kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh && kubectl apply -f tools/fedora44/job.yaml` | hours; the Job stops at 14 h (`activeDeadlineSeconds`) |
 
 A desk can measure the class too (`plugin-qualify-sync --system --force --no-distributed` with `host_class x86-64`),
 but only when nothing else runs on it: the measurement plays every plugin on the audio server.
