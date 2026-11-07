@@ -35,7 +35,7 @@ dnf -y -q makecache
 dnf -y install plugin-qualify omx-clap-host plugin-hostd jack-audio-connection-kit lilv-devel util-linux procps-ng tar xz \
   omx-plugins-clap omx-plugins-lv2
 dnf -y install --skip-unavailable --skip-broken $PLUGINS
-rpm -q mod-host-protocol | grep -q omx || { echo 'mod-host-protocol is not the channel build'; exit 1; }
+bash /script/channel-check.sh || exit 1
 plugin-hostd --version
 ! rpm -q pipewire-jack-audio-connection-kit-libs
 python3 -c 'import lilv; print("lilv", lilv.World)'
