@@ -3,7 +3,7 @@
 #
 # The Job that measured records/x86-64/fedora44 (see measure.sh). The script goes in first as a ConfigMap:
 #
-#   kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh
+#   kubectl -n omx-worker create configmap omx-qualify-fedora44-script --from-file=tools/fedora44/measure.sh --from-file=tools/fedora44/channel-check.sh
 #   kubectl apply -f tools/fedora44/job.yaml
 #   # when /out/done exists:
 #   kubectl -n omx-worker cp <pod>:/out ./fedora44-run
